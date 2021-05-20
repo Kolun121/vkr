@@ -1,0 +1,64 @@
+<th:block th:fragment="inputField (label, name, type)">
+    <div th:with="valid=${!#fields.hasErrors(name)}" 
+         th:class="${'form-group row'}">
+        <div class="col-md-4">
+            <label class="control-label" th:text="${label}" th:for="${name}">Label</label>
+            <div class="input-group has-error">
+                <th:block th:switch="${type}">
+                    <th:block th:case="'text'">
+                        <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}"
+                            type="text" th:field="*{__${name}__}" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                        </div>
+                    </th:block>
+                    <th:block th:case="'number'">
+                        <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" type="number" th:field="*{__${name}__}" />
+                    </th:block>
+
+                    <th:block th:case="'date'">
+                        <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" type="date" th:field="*{__${name}__}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        </div>
+                    </th:block>
+                    
+                    <th:block th:case="'email'">
+                        <input type="email" th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" id="email" autocomplete="off" th:field="*{__${name}__}"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-at"></i></span>
+                        </div>
+                    </th:block>
+                    
+                    <th:block th:case="'phone'">
+                        <div class="input-group">
+                            <input type="tel" th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" id="phone" pattern="[0-9]{4} [0-9]{3} [0-9]{2}-[0-9]{2}"
+                                   autocomplete="off" th:field="*{__${name}__}"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                        </div>
+                        <span>Формат телефона: xxxx xxx xx-xx</span>
+                     
+                    </th:block>
+
+                    <th:block th:case="'textarea'">
+                        <textarea th:class="${'form-control ' + name}" th:field="*{__${name}__}" />
+                    </th:block>
+
+                </th:block>
+                <div th:if="${valid}" 
+                    class="valid-feedback">
+                    <i class="fas fa-check"></i>  
+                </div>
+                <div th:if="${!valid}" 
+                    class="invalid-feedback">
+                    <i class="fas fa-times"></i>
+                    <span class="help-inline" th:errors="*{__${name}__}">Error</span>
+                </div>
+                <!--<span class="help-inline" th:errors="*{__${name}__}">Error</span>-->
+            </div>
+        </div>
+    </div>
+
+</th:block>

@@ -1,0 +1,11 @@
+<th:block th:fragment="selectField (label, name, items)">
+    <div class="form-group">
+        <label class="control-label" th:for="${name}" th:text="${label}">Label</label>
+        <div>
+            <select class="col-8" th:field="*{__${name}__}">
+                <option th:each="item : ${items}" th:value="${item}"
+                th:text="${item.getValue()}"></option>
+            </select>
+        </div>
+    </div>
+</th:block>
