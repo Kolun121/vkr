@@ -1,16 +1,22 @@
 package ru.example.demo.controller;
 
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import ru.example.demo.domain.User;
 import ru.example.demo.domain.enumeration.Role;
+import ru.example.demo.exception.NotFoundException;
 import ru.example.demo.service.SecurityService;
 import ru.example.demo.service.UserService;
 
@@ -58,12 +64,27 @@ public class AuthController {
     }
     
     @GetMapping("/login")
-    public String getLoginPage(Model model, Authentication authentication) {
+    public String getLoginPage(@RequestParam(value = "error", defaultValue = "false") boolean loginError, Model model, Authentication authentication) {
         if(authentication != null){
             return "redirect:/";   
         }
         model.addAttribute("user", new User());
         return "auth/login";
+    }
+    
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception){
+
+//        log.error("Handling not found exception");
+//        log.error(exception.getMessage());
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
     }
     
     
