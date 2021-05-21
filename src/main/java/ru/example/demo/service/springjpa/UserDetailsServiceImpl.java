@@ -1,6 +1,10 @@
 package ru.example.demo.service.springjpa;
 
-import java.io.ByteArrayInputStream;
+import ru.example.demo.domain.User;
+import ru.example.demo.repository.UserRepository;
+import ru.example.demo.config.security.SecurityUser;
+import ru.example.demo.service.UserService;
+
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.example.demo.domain.User;
-import ru.example.demo.repository.UserRepository;
-import ru.example.demo.config.security.SecurityUser;
-import ru.example.demo.service.UserService;
+import ru.example.demo.exception.NotFoundException;
 
 
 @Service("userDetailsServiceImpl")
@@ -35,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     public User findByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
         if(!userOptional.isPresent()){
-            return null;
+            throw new NotFoundException("Не найден");
         }
         
         return userOptional.get();
@@ -50,7 +51,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     public User findById(Long id) {        
         Optional<User> userOptional = userRepository.findById(id);
         if(!userOptional.isPresent()){
-            return null;
+            throw new NotFoundException("Не найден");
         }
         
         return userOptional.get();
@@ -72,9 +73,8 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public ByteArrayInputStream loadCSV() {
+    public void deleteAll(Iterable<User> objects) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }

@@ -1,6 +1,5 @@
 package ru.example.demo.service;
 
-import java.io.ByteArrayInputStream;
 import java.util.Set;
 
 public interface CrudService<T, ID> {
@@ -15,5 +14,5 @@ public interface CrudService<T, ID> {
 
     void deleteById(ID id);
     
-    ByteArrayInputStream loadCSV();
+    void deleteAll(Iterable<T> objects);
 }
