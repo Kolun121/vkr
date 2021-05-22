@@ -43,7 +43,7 @@ public abstract class AbstractSortingAndFiltering<T> {
         String value = pagingRequest.getSearch()
                                     .getValue().toLowerCase();
         
-        Predicate<T> tPredicate = formTPredicate();
+        Predicate<T> tPredicate = formTPredicate(value);
         
         return tPredicate;
     }
@@ -76,7 +76,7 @@ public abstract class AbstractSortingAndFiltering<T> {
         return getTEmptyComparator();
     }
     
-    protected abstract Predicate<T> formTPredicate();
+    protected abstract Predicate<T> formTPredicate(String value);
     
     protected abstract Comparator<T> getTComparator(String name, Direction dir);
     

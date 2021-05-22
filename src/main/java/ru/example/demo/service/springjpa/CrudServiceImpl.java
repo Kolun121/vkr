@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.springframework.data.repository.CrudRepository;
 
-public abstract class CrudServiceImpl<T, D, R extends CrudRepository<T, D>> implements CrudService<T, D> {
+public class CrudServiceImpl<T, D, R extends CrudRepository<T, D>> implements CrudService<T, D> {
     private final R rRepository;
     
     public CrudServiceImpl(R rRepository) {
