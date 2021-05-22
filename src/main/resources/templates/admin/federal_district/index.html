@@ -1,0 +1,20 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'federalDistrictIndexAdmin', 'Федеральные округа РФ')}">
+<main class="container">
+    <h1 class="text-center">Федеральные округа РФ</h1>
+   
+    <button  id="create" class="btn btn-outline-primary">Добавить запись</button>
+    <button  id="delete" class="btn btn-danger" disabled>Удалить выбранные</button>
+    <table id="data_table" class="uk-table uk-table-hover uk-table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Название</th>
+                <th>Ссылка</th>
+            </tr>
+        </thead>
+
+
+    </table>
+</main>
+    
+</html>

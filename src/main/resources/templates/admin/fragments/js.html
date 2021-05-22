@@ -1,41 +1,31 @@
 <th:block th:fragment="js">
     <th:block th:switch="${page}">
-        <th:block th:case="employeeIndexAdmin">
+        <!--Муниципалитет-->
+        <th:block th:case="municipalityIndexAdmin">
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/employeeDatatables.js}"></script>
+            <script th:src="@{/resources/js/admin/municipality_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
-        <th:block th:case="employeeUpdateAdmin">
-            <script th:src="@{/resources/js/admin/employee.js}"></script>
-            <script th:src="@{/webjars/select2/4.0.13/js/select2.min.js}"></script>
-            <script th:src="@{/resources/js/admin/employeeUpdateSelect2.js}"></script>
-        </th:block>
-        <th:block th:case="educationUpdateAdmin">
-            <script th:src="@{/resources/js/admin/education.js}"></script>
-        </th:block>
-        <th:block th:case="familyUpdateAdmin">
-            <script th:src="@{/resources/js/admin/family.js}"></script>
-        </th:block>
-        <th:block th:case="vacationUpdateAdmin">
-            <script th:src="@{/resources/js/admin/vacation.js}"></script>
-        </th:block>
-        <th:block th:case="jobHistoryUpdateAdmin">
-            <script th:src="@{/resources/js/admin/job_history.js}"></script>
-        </th:block>   
-        <th:block th:case="positionListAdmin">
-            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js">
-                </script>
-            <script th:src="@{/resources/js/admin/positionDatatables.js}"></script>
-        </th:block>
-        <th:block th:case="departmentListAdmin">
+        
+        
+        <!--Виды муниципалитетов-->
+        <th:block th:case="municipalityTypeIndexAdmin">
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/departmentDatatables.js}"></script>
+            <script th:src="@{/resources/js/admin/municipality_type_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
-        <th:block th:case="indexStaffingTableAdmin">
+        
+        <!--Субъекты РФ-->
+        <th:block th:case="federalSubjectIndexAdmin">
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/staffingTableDatatables.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_subject_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
-        <th:block th:case="updateStaffingTableAdmin">
-            <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
-            <script th:src="@{/resources/js/admin/staffingTableUpdate.js}"></script>
+        
+        <!--Федеральные оурга РФ-->
+        <th:block th:case="federalDistrictIndexAdmin">
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+            <script th:src="@{/resources/js/admin/federal_district_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
 </th:block>

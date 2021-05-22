@@ -16,7 +16,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive" sec:authorize="isAuthenticated()">
                 <ul class="navbar-nav ml-auto">
-
+                    <li th:replace="::menuItem ('/admin/federal-districts','federalDistrictIndexAdmin','Федеральные округа', ${page})"/>
+                    <li th:replace="::menuItem ('/admin/federal-subjects','federalSubjectIndexAdmin','Субъекты РФ', ${page})"/>
+                    <li th:replace="::menuItem ('/admin/municipalities','municipalityIndexAdmin','Муниципалитеты', ${page})"/>
+                    <li th:replace="::menuItem ('/admin/municipality-types','municipalityTypeIndexAdmin','Виды муниципалитетов', ${page})"/>
                 </ul>
             </div>
             <form th:action="@{/logout}" method="POST" class="form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()">
