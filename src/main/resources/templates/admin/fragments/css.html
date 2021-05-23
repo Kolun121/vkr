@@ -1,29 +1,39 @@
 <th:block th:fragment="css"><th:block th:switch="${page}">
-        <!--Муниципалитеты-->
     <th:block th:case="municipalityIndexAdmin">
+        <!--Муниципалитеты-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
     </th:block>
         
-        <!--Виды муниципалитетов-->
     <th:block th:case="municipalityTypeIndexAdmin">
+        <!--Виды муниципалитетов-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
     </th:block>
 
-    <!--Субъекты РФ-->
     <th:block th:case="federalSubjectIndexAdmin">
+    <!--Субъекты РФ-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
+    </th:block>
+    <th:block th:case="updateFederalSubjectAdmin">
+        
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
     </th:block>
 
-    <!--Федеральные оурга РФ-->
     <th:block th:case="federalDistrictIndexAdmin">
+        <!--Федеральные оурга РФ-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
     </th:block>
+ 
+    <th:block th:case="updateFederalDistrictAdmin">
+        
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
+    </th:block>
+ 
 </th:block></th:block>

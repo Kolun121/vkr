@@ -8,4 +8,5 @@ public interface JpaService<T, ID> extends CrudService<T, ID>{
     
     public List<T> findAll();
     Page<T> findAllPagingRequest(PagingRequest pagingRequest);
+    Iterable<T> saveAll(Iterable<T> itrbl);
 }

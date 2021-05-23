@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateFederalSubjectAdmin', 'Информация о субъекте РФ')}">
+    
+<main class="container mb-5" >
+    <div class="container mt-5">
+                   
+        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${federalSubject}">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{federalDistrict}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
+            
+            <select th:replace="~{admin/fragments/selectField :: selectField ('Выберите вид субъекта', 'federalSubjectType', ${federalSubjectTypeValues})}" />
+            
+            
+            <h2 class="text-center mt-5">Привязать муниципалитеты</h2>
+            <div class="col-md-12 mt-2">
+
+                    <select multiple="multiple" size="10" id="optionsbox" th:field="*{municipalities}" class="form-control">
+                        <option th:each="e : ${availableMunicipalities}"
+                                th:value="${e.id}"
+                                >
+                            ID - [[${e.id}]]: [[${e?.title}]]
+                        </option>
+                    </select>
+            </div>
+            <button class="btn btn-primary" id="submit_button" type="submit" th:text="'Обновить'"></button>
+        </form>
+
+    </div>
+</main>
+
+</html>

@@ -1,11 +1,14 @@
 package ru.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -25,6 +28,11 @@ public class Municipality implements Serializable{
     
     @OneToOne
     private MunicipalityType municipalityType;
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "federal_subject_id")
+    private FederalSubject federalSubject;
     
     @Override
     public boolean equals(Object o) {

@@ -32,7 +32,7 @@ public class FederalDistrict implements Serializable{
     
     private String title;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "federalDistrict")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "federalDistrict")
     private List<FederalSubject> federalSubjects = new ArrayList<>();
     
     @Override

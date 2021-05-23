@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.util.ObjectUtils;
 
 
@@ -62,6 +63,27 @@ public class MunicipalityController {
         Municipality savedMunicipality = municipalityService.save(newMunicipality);
 
         return savedMunicipality.getId().toString();
+    }
+    
+    @GetMapping("{id}") 
+    public String getMunicipalityById(@PathVariable Long id, Model model) {
+        Municipality municipality = municipalityService.findById(id);
+
+        model.addAttribute("municipality", municipality);
+        return ADMIN_MUNICIPALITY_PATH + "/updateMunicipality";
+    }
+    
+    @PostMapping("{id}")
+    public String updateMunicipalityById(@PathVariable Long id, @Valid Municipality municipality, BindingResult result) {
+        if (result.hasErrors()) {
+            
+            return ADMIN_MUNICIPALITY_PATH + "/updateMunicipality";
+        } else {
+            municipality.setId(id);
+            
+            municipalityService.save(municipality);
+            return "redirect:/admin/municipalities/" + id;
+        }
     }
     
     @DeleteMapping("/delete")

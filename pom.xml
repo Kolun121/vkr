@@ -65,6 +65,12 @@
                     <artifactId>spring-boot-starter-security</artifactId>
                 </dependency>
                 
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+                
+                
                  <!--webjars-->
                 <dependency>
                     <groupId>org.webjars</groupId>
@@ -76,6 +82,12 @@
                     <groupId>org.webjars</groupId>
                     <artifactId>font-awesome</artifactId>
                     <version>5.11.2</version>
+                </dependency>
+                
+                <dependency>
+                    <groupId>org.webjars.npm</groupId>
+                    <artifactId>bootstrap4-duallistbox</artifactId>
+                    <version>4.0.2</version>
                 </dependency>
 	</dependencies>
 

@@ -1,31 +1,48 @@
 <th:block th:fragment="js">
     <th:block th:switch="${page}">
-        <!--Муниципалитет-->
         <th:block th:case="municipalityIndexAdmin">
+            <!--Муниципалитет-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/municipality_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/municipality/municipality_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
-        
-        
-        <!--Виды муниципалитетов-->
+ 
+    
         <th:block th:case="municipalityTypeIndexAdmin">
+            <!--Виды муниципалитетов-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/municipality_type_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
-        <!--Субъекты РФ-->
         <th:block th:case="federalSubjectIndexAdmin">
+            <!--Субъекты РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/federal_subject_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_subject/federal_subject_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
-        <!--Федеральные оурга РФ-->
-        <th:block th:case="federalDistrictIndexAdmin">
+        <th:block th:case="updateFederalSubjectAdmin">
+            <!--Субъекты РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-            <script th:src="@{/resources/js/admin/federal_district_datatables_settings.js}"></script>
+            <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_subject/federal_subject_duallistbox.js}"></script>
+        </th:block>
+        
+        <th:block th:case="federalDistrictIndexAdmin">
+            <!--Федеральные округа РФ-->
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+            <script th:src="@{/resources/js/admin/federal_district/federal_district_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+            
+            <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_district/federal_district_duallistbox.js}"></script>
+        </th:block>
+        
+        <th:block th:case="updateFederalDistrictAdmin">
+            <!--Федеральные округа РФ-->
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+ <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_district/federal_district_duallistbox.js}"></script>
         </th:block>
 </th:block>

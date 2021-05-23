@@ -41,7 +41,7 @@ public class FederalSubjectServiceImpl extends AbstractJpaFilteringSortingServic
 
     @Override
     public List<FederalSubject> findAllByFederalDistrictId(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.rRepository.findAllByFederalDistrictId(id);
     }
    
 }

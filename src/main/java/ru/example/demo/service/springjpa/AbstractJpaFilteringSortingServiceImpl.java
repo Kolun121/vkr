@@ -1,6 +1,7 @@
 package ru.example.demo.service.springjpa;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -18,7 +19,7 @@ public abstract class AbstractJpaFilteringSortingServiceImpl <T, D, R extends Jp
         implements JpaService<T, D> 
 {
     
-    private final R rRepository;
+    protected final R rRepository;
 
     public AbstractJpaFilteringSortingServiceImpl(R rRepository) {
         this.rRepository = rRepository;
@@ -65,5 +66,14 @@ public abstract class AbstractJpaFilteringSortingServiceImpl <T, D, R extends Jp
         List<T> ts = rRepository.findAll();
        
         return getPage(ts, pagingRequest);
-    }    
+    }
+    
+    @Override
+    public Iterable<T> saveAll(Iterable<T> itrbl) {
+        
+        Iterable<T> ts = rRepository.saveAll(itrbl);
+       
+        return ts;
+    } 
+    
 }
