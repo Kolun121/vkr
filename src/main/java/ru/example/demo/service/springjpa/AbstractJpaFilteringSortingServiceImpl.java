@@ -62,7 +62,6 @@ public abstract class AbstractJpaFilteringSortingServiceImpl <T, D, R extends Jp
     
     @Override
     public Page<T> findAllPagingRequest(PagingRequest pagingRequest) {
-        
         List<T> ts = rRepository.findAll();
        
         return getPage(ts, pagingRequest);

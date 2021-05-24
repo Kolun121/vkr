@@ -50,7 +50,7 @@ public class FederalDistrictController {
     
     @GetMapping
     public String getFederalDistrictsPage(){
-        return ADMIN_FEDERAL_DISTRICT_PATH + "/index";
+        return ADMIN_FEDERAL_DISTRICT_PATH + "/listFederalDistricts";
     }
     
     @PostMapping
@@ -107,7 +107,6 @@ public class FederalDistrictController {
                 federalSubject.setFederalDistrict(federalDistrict);
 
             }
-            
             
             if(!subjectsOfDistrict.isEmpty()){
                 for (FederalSubject federalSubject : subjectsOfDistrict) {

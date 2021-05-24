@@ -1,7 +1,9 @@
-<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'municipalityTypeIndexAdmin', 'Виды муниципалитетов')}">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'listMunicipalityWaterBodiesAdmin', 'Водные объекты муниципалитета')}">
 <main class="container">
-    <h1 class="text-center">Виды муниципалитетов</h1>
+    <div th:replace="~{admin/fragments/municipalityHeader :: municipalityHeader(${page}, ${municipalityId})}" />
    
+    <h3 class="text-center">Водные объекты муниципалитета</h3>
+    
     <button  id="create" class="btn btn-outline-primary">Добавить запись</button>
     <button  id="delete" class="btn btn-danger" disabled>Удалить выбранные</button>
     <table id="data_table" class="uk-table uk-table-hover uk-table-striped">

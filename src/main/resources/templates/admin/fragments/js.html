@@ -1,21 +1,27 @@
 <th:block th:fragment="js">
     <th:block th:switch="${page}">
-        <th:block th:case="municipalityIndexAdmin">
+        <th:block th:case="listMunicipalitiesAdmin">
             <!--Муниципалитет-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/municipality/municipality_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
  
-    
-        <th:block th:case="municipalityTypeIndexAdmin">
+    <th:block th:case="listMunicipalityWaterBodiesAdmin">
+        <!--Водные объекты муниципалитета-->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+        <script th:src="@{/resources/js/admin/water_body/water_body_datatables_settings.js}"></script>
+        <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+    </th:block>
+        
+        <th:block th:case="listMunicipalityTypesAdmin">
             <!--Виды муниципалитетов-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/municipality_type_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
-        <th:block th:case="federalSubjectIndexAdmin">
+        <th:block th:case="listFederalSubjectsAdmin">
             <!--Субъекты РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/federal_subject/federal_subject_datatables_settings.js}"></script>
@@ -29,7 +35,7 @@
             <script th:src="@{/resources/js/admin/federal_subject/federal_subject_duallistbox.js}"></script>
         </th:block>
         
-        <th:block th:case="federalDistrictIndexAdmin">
+        <th:block th:case="listFederalDistrictsAdmin">
             <!--Федеральные округа РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/federal_district/federal_district_datatables_settings.js}"></script>

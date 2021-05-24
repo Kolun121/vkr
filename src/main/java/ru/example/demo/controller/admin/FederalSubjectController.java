@@ -51,7 +51,7 @@ public class FederalSubjectController {
     
     @GetMapping
     public String getFederalSubjectsPage(){
-        return ADMIN_FEDERAL_SUBJECT_PATH + "/index";
+        return ADMIN_FEDERAL_SUBJECT_PATH + "/listFederalSubjects";
     }
     
     @PostMapping

@@ -46,7 +46,7 @@ public class MunicipalityController {
     
     @GetMapping
     public String getMunicipalitiesPage(){
-        return ADMIN_MUNICIPALITY_PATH + "/index";
+        return ADMIN_MUNICIPALITY_PATH + "/listMunicipalities";
     }
     
     @PostMapping

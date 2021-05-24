@@ -40,13 +40,13 @@ public class MunicipalityTypeController {
     
     
     @GetMapping
-    public String getMunicipalitiyTypesPage(){
-        return ADMIN_MUNICIPALITYTYPE_PATH + "/index";
+    public String listMunicipalityTypes(){
+        return ADMIN_MUNICIPALITYTYPE_PATH + "/listMunicipalityTypes";
     }
     
     @PostMapping
     @ResponseBody
-    public Page<MunicipalityType> listMunicipalitiesAjax(@RequestBody PagingRequest pagingRequest) {
+    public Page<MunicipalityType> listMunicipalityTypesAjax(@RequestBody PagingRequest pagingRequest) {
 
         return municipalityTypeService.findAllPagingRequest(pagingRequest);
     } 
