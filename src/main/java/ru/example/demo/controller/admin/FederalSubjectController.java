@@ -73,7 +73,7 @@ public class FederalSubjectController {
     @GetMapping("{id}") 
     public String getFederalSubjectById(@PathVariable Long id, Model model) {
         FederalSubject federalSubject = federalSubjectService.findById(id);
-
+     
         List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
                                     .filter((Municipality municipality) -> {
                                         if(municipality.getFederalSubject()!= null){
@@ -99,7 +99,7 @@ public class FederalSubjectController {
             return ADMIN_FEDERAL_SUBJECT_PATH + "/updateFederalSubject";
         } else {
             federalSubject.setId(id);
-            
+            System.out.println(federalSubject.getFederalDistrict());
             List<Municipality> municipalitiesOfSubject = municipalityService.findAllByFederalSubjectId(id);
             
             for (Municipality municipality : federalSubject.getMunicipalities()) {

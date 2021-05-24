@@ -1,0 +1,22 @@
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'listWaterBodyCrowdedPlacesAdmin', 'Мест массового скопления людей водного объекта')}">
+<main class="container">
+    <div th:replace="~{admin/fragments/municipalityHeader :: municipalityHeader(${page}, ${municipalityId})}" />
+   
+    <h3 class="text-center">Мест массового скопления людей водного объекта</h3>
+    
+    <button  id="create" class="btn btn-outline-primary">Добавить запись</button>
+    <button  id="delete" class="btn btn-danger" disabled>Удалить выбранные</button>
+    <table id="data_table" class="uk-table uk-table-hover uk-table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Название</th>
+                <th>Ссылка</th>
+            </tr>
+        </thead>
+
+
+    </table>
+</main>
+    
+</html>

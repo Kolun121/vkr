@@ -1,21 +1,29 @@
 var columnDefs = [{
     orderable: false,
-    targets: [2]
+    targets: [0, 1]
 },
 {
-    "targets": 2,
+    "targets": 1,
     "data": "id",
     "render": function ( data, type, row, meta ) {
-        console.log(data);
         return '<a text="Перейти" href="' + document.URL + '/' + data + '">Перейти</a>';
     }
 }];
 var columns = [
-    {"data": "id", "width": "10%"},
     {"data": "title", 
-        "width": "80%",
+        "width": "100%",
         "defaultContent": "<i>Не указан</i>"
 
     },
     {"data": "id", "width": "10%"}
 ];
+
+$('#create').on( 'click', function () {
+    $.ajax({
+        url: document.URL + '/new',
+        type: "POST",
+        success: function(result){
+            t.ajax.reload();
+        }
+    });  
+});

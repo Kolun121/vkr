@@ -31,8 +31,10 @@ public class FederalSubject implements Serializable{
     private Long id;
     
     private String title;
+        
+    private Integer averageHumanLifeCost = 0;
     
-    private Long averageHumanLifeCost = 0l;
+    private Integer acceptableProbabilityOfDeath = 0;
     
     @Enumerated(value = EnumType.STRING)
     private FederalSubjectType federalSubjectType;

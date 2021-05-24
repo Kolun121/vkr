@@ -18,3 +18,13 @@ var columns = [
     },
     {"data": "id", "width": "10%"}
 ];
+
+$('#create').on( 'click', function () {
+    $.ajax({
+        url: document.URL + '/new',
+        type: "POST",
+        success: function(result){
+            t.ajax.reload();
+        }
+    });  
+});

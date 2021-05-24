@@ -1,0 +1,21 @@
+<th:block th:fragment="waterBodyHeader(page, municipalityId, waterBodyId)">
+    <div class="row">
+  
+            <!--Шаблон для municipalityHeader nav item-->
+            <div th:remove="all">
+                <li th:fragment="navItem (path,active,title,page)" th:class="'nav-item'">
+                  <a th:class="'nav-link ' + ${active==page ? 'active' : ''}" th:href="@{${path}}" th:text="${title}"></a>
+                </li>
+            </div>
+            
+            <div class="col">
+                <ul class="nav nav-tabs mt-5" id="myTabs">
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}},'updateWaterBodyAdmin','Основная информация', ${page})"/>
+                    
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}},'listMunicipalityWaterBodiesAdmin','Водные объекты', ${page})"/>
+   
+                </ul>
+
+            </div>
+        </div>
+</th:block>

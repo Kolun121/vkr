@@ -37,5 +37,10 @@ public class FederalDistrictServiceImpl extends AbstractJpaFilteringSortingServi
     protected Comparator<FederalDistrict> getTEmptyComparator() {
         return FederalDistrictComparators.getEmptyComparator();
     }
+    
+    @Override
+    public FederalDistrict save(FederalDistrict object) {
+        return super.save(object);
+    }
    
 }

@@ -6,6 +6,7 @@ var columnDefs = [{
     "targets": 2,
     "data": "id",
     "render": function ( data, type, row, meta ) {
+        console.log(data);
         return '<a text="Перейти" href="' + document.URL + '/' + data + '">Перейти</a>';
     }
 }];
@@ -13,7 +14,7 @@ var columns = [
     {"data": "id", "width": "10%"},
     {"data": "title", 
         "width": "80%",
-        "defaultContent": "<i>Не указано</i>"
+        "defaultContent": "<i>Не указан</i>"
 
     },
     {"data": "id", "width": "10%"}

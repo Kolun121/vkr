@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateProtectiveMeasureAdmin', 'Информация о защитной мере')}">
+    
+<main class="container mb-5" >
+    <div class="container mt-5">
+        <h3 class="text-center">Защитная мера</h3>
+        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${protectiveMeasure}">
+            <input type="hidden" th:field="*{id}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
+
+            <select th:replace="~{admin/fragments/selectField :: selectField ('Для чего предназначена', 'designatedFor', ${waterBodyTypeValues})}" />
+            <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
+        </form>
+
+    </div>
+</main>
+
+</html>

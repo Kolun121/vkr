@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import ru.example.demo.domain.enumeration.WaterBodyType;
 
 
 @Getter
@@ -30,6 +33,9 @@ public class WaterBody implements Serializable{
     
     private String title;
    
+    @Enumerated(value = EnumType.STRING)
+    private WaterBodyType waterBodyType;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
     private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();
     

@@ -56,16 +56,6 @@ $('#data_table tbody').on( 'click', 'tr', function () {
 
 } );
 
-$('#create').on( 'click', function () {
-    $.ajax({
-        url: document.URL + '/new',
-        type: "POST",
-        success: function(result){
-            t.ajax.reload();
-        }
-    });  
-});  
-
 $('#delete').on( 'click', function () {
     var dataArr = [];
     t.rows('.selected').every( function ( rowIdx, tableLoop, rowLoop ) {

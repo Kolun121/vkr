@@ -1,0 +1,10 @@
+.col-md-6{
+    min-width: 100%;
+    width: 90%;
+}
+.input-group{
+    width: 100%;
+}
+input .form-control{
+    min-width: 100%;
+}
