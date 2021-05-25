@@ -25,8 +25,18 @@ public class CrowdedPlace implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
    
+    private Integer protectiveMeasureCost = 0;
+    
+    private Integer deathToll = 0;
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "protective_measure_id")
+    private ProtectiveMeasure protectiveMeasure;
+    
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "water_body_id")
     private WaterBody waterBody;

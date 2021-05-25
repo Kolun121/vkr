@@ -19,7 +19,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import ru.example.demo.domain.enumeration.WaterBodyType;
 
 
 @Getter
@@ -32,15 +31,12 @@ public class WaterBody implements Serializable{
     private Long id;
     
     private String title;
-   
-    @Enumerated(value = EnumType.STRING)
-    private WaterBodyType waterBodyType;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
     private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
-    private List<SmallVesselsOperationPlace> smallVesselsOperationPlaces = new ArrayList<>();
+    private List<SmallVesselOperationPlace> smallVesselsOperationPlaces = new ArrayList<>();
     
     @ManyToOne
     @JoinColumn(name = "municipality_id")

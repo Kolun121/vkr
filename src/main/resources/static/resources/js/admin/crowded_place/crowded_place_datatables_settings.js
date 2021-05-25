@@ -1,6 +1,6 @@
 var columnDefs = [{
     orderable: false,
-    targets: [0, 1]
+    targets: [0,1]
 },
 {
     "targets": 1,

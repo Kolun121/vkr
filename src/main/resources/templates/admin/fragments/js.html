@@ -20,6 +20,20 @@
         <script th:src="@{/resources/js/admin/water_body/water_body_datatables_settings.js}"></script>
         <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
     </th:block>
+    
+    <th:block th:case="listWaterBodyCrowdedPlacesAdmin">
+        <!--Места массового скопления водного объекта-->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+        <script th:src="@{/resources/js/admin/crowded_place/crowded_place_datatables_settings.js}"></script>
+        <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+    </th:block>
+        
+    <th:block th:case="listWaterBodyVesselOperationPlacesAdmin">
+        <!--Места эксплуатации маломерных судов водного объекта-->
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+        <script th:src="@{/resources/js/admin/small_vessel_operation_place/small_vessel_operation_place_datatables_settings.js}"></script>
+        <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+    </th:block>
         
         <th:block th:case="listMunicipalityTypesAdmin">
             <!--Виды муниципалитетов-->

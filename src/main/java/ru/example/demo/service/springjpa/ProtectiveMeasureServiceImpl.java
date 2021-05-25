@@ -28,7 +28,6 @@ public class ProtectiveMeasureServiceImpl extends AbstractJpaFilteringSortingSer
 
     @Override
     protected Comparator<ProtectiveMeasure> getTComparator(String name, Direction dir) {
-//        return MunicipalityComparators.getComparator(name, dir);
         return new Comparator<ProtectiveMeasure>() {
             @Override
             public int compare(ProtectiveMeasure o1, ProtectiveMeasure o2) {

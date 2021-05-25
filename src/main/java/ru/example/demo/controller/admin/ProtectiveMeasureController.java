@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import ru.example.demo.domain.ProtectiveMeasure;
-import ru.example.demo.domain.enumeration.WaterBodyType;
+import ru.example.demo.domain.enumeration.PlaceType;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.ProtectiveMeasureService;
@@ -71,7 +71,7 @@ public class ProtectiveMeasureController {
         ProtectiveMeasure protectiveMeasure = protectiveMeasureService.findById(id);
        
         model.addAttribute("protectiveMeasure", protectiveMeasure);
-        model.addAttribute("waterBodyTypeValues", WaterBodyType.values());
+        model.addAttribute("waterBodyTypeValues", PlaceType.values());
         
         return ADMIN_PROTECTIVE_MEASURE_PATH + "/updateProtectiveMeasure";
     }

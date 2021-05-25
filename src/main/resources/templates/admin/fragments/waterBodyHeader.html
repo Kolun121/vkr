@@ -12,7 +12,9 @@
                 <ul class="nav nav-tabs mt-5" id="myTabs">
                     <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}},'updateWaterBodyAdmin','Основная информация', ${page})"/>
                     
-                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}},'listMunicipalityWaterBodiesAdmin','Водные объекты', ${page})"/>
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}} + '/crowded-places','listWaterBodyCrowdedPlacesAdmin','Места массового скопления людей', ${page})"/>
+                    
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId} + '/water-bodies/' + ${waterBodyId}} + '/vessel-operation-places','listWaterBodyVesselOperationPlacesAdmin','Места эксплуатации маломерных судов', ${page})"/>
    
                 </ul>
 

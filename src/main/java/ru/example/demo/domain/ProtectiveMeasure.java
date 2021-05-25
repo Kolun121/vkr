@@ -1,18 +1,22 @@
 package ru.example.demo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import ru.example.demo.domain.enumeration.WaterBodyType;
+import ru.example.demo.domain.enumeration.PlaceType;
 
 
 @Getter
@@ -27,10 +31,13 @@ public class ProtectiveMeasure  implements Serializable{
     private String title;
     
     @Enumerated(value = EnumType.STRING)
-    private WaterBodyType designatedFor;
+    private PlaceType designatedFor;
     
-    @OneToOne
-    private WaterBody waterBody;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "protectiveMeasure")
+    private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();
+    
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "protectiveMeasure")
+    private List<SmallVesselOperationPlace> smallVesselOperationPlaces = new ArrayList<>();
     
     @Override
     public boolean equals(Object o) {

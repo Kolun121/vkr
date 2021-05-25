@@ -3,11 +3,12 @@
       th:replace="~{admin/fragments/layout :: layout (~{::main},'updateWaterBodyAdmin', 'Информация о водном объекте')}">
     
 <main class="container mb-5" >
-    <div class="container mt-5">
+    <div class="container">
         <div th:replace="~{admin/fragments/waterBodyHeader :: waterBodyHeader(${page}, ${waterBody.municipality.id}, ${waterBody.id})}" />
         <h3 class="text-center">Водный объект муниципалитета</h3>
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${waterBody}">
             <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{municipality}" />
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
 
             

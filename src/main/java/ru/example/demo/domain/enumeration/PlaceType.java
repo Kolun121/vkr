@@ -2,15 +2,16 @@ package ru.example.demo.domain.enumeration;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum WaterBodyType {
+public enum PlaceType {
     BEACH("Пляж"),
     WATER_BRIDGE("Водная переправа или наплавной мост"),
     ICE_CROSSING("Ледовая переправа"),
-    ICE_FISHING_PLACE("Места массового выхода людей на лед для подледного лова рыбы");
+    ICE_FISHING_PLACE("Места массового выхода людей на лед для подледного лова рыбы"),
+    VESSEL_OPERATION_PLACE("Место эксплуатации маломерных судов");
 
     private final String value;
     
-    WaterBodyType(String value) {
+    PlaceType(String value) {
         this.value = value;
     }
 

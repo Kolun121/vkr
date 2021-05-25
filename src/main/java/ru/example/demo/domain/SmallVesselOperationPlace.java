@@ -23,13 +23,23 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "small_vessels_operation_places")
-public class SmallVesselsOperationPlace implements Serializable{
+public class SmallVesselOperationPlace implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
+    
+    private Integer protectiveMeasureCost = 0;
+    
+    private Integer deathToll = 0;
    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "protective_measure_id")
+    private ProtectiveMeasure protectiveMeasure;
+    
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "water_body_id")
     private WaterBody waterBody;
@@ -38,10 +48,10 @@ public class SmallVesselsOperationPlace implements Serializable{
     public boolean equals(Object o) {
 
         if (o == this) return true;
-        if (!(o instanceof SmallVesselsOperationPlace)) {
+        if (!(o instanceof SmallVesselOperationPlace)) {
             return false;
         }
-        SmallVesselsOperationPlace object = (SmallVesselsOperationPlace) o;
+        SmallVesselOperationPlace object = (SmallVesselOperationPlace) o;
         return Objects.equals(id, object.id);
     }
     

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateVesselOperaionPlaceAdmin', 'Информация о месте эксплуатирования маломерных судов')}">
+    
+<main class="container mb-5" >
+    <div class="container mt-5">
+        <h3 class="text-center">Место эксплуатирования маломерных судов</h3>
+        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${vesselOperaionPlace}">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{waterBody}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
+
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Количество погибших людей(среднее за последние пять лет)', 'deathToll', 'number')}" />
+            
+            <th:block th:if="*{protectiveMeasure != null}">
+                <input th:replace="~{admin/fragments/inputField :: inputField ('Стоимость защитного мероприятия', 'protectiveMeasureCost', 'number')}" />
+            </th:block>
+            
+            <div class="form-group">
+                <label class="control-label" th:for="*{protectiveMeasure}">Защитная мера</label>
+                <div>
+                    <select class="col-8" th:field="*{protectiveMeasure}">
+                        <option th:value="''" th:text="'Не выбрано'"></option>
+                        <option th:each="item : ${vesselOperationPlaceProtectiveMeasures}" th:value="${item.id}"
+                        th:text="${item.getTitle()}"
+                        th:selected="${#strings.equals(item.id, vesselOperaionPlace.protectiveMeasure?.id)}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
+        </form>
+
+    </div>
+</main>
+
+</html>
