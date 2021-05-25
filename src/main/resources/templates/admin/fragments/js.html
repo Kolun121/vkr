@@ -7,6 +7,21 @@
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
+        <th:block th:case="listMunicipalityForecastsAdmin">
+            <!--Прогнозы муниципалитета-->
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+            <script th:src="@{/resources/js/admin/municipality_forecast/municipality_forecast_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+        </th:block>
+        
+        <th:block th:case="createMunicipalityForecastAdmin">
+            <!--Создание прогноза для муниципалитета-->
+            <script th:src="@{/resources/js/admin/jquery-steps/jquery.steps.min.js}"></script>
+            <script th:src="@{/resources/js/admin/jquery-validate/jquery.validate.min.js}"></script>
+            <script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+            <script th:src="@{/resources/js/admin/municipality_forecast/create_municipality_forecast.js}"></script>
+        </th:block>
+        
         <th:block th:case="listProtectiveMeasuresAdmin">
             <!--Защитные мероприятия-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>

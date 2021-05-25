@@ -1,7 +1,10 @@
 package ru.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,47 +25,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "municipalities")
-public class Municipality implements Serializable{
+@Table(name = "federal_district_forecasts")
+public class FederalDistrictForecast implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title = "Не указано";
+    private Year year;
     
-    private Integer currentPopulation = 0;
+    private Integer projectedPopulation = 0;
     
-    @OneToOne
-    private MunicipalityType municipalityType;
-    
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    private MunicipalityForecast municipalityForecast;
-    
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipality")
-    private List<WaterBody> waterBodies = new ArrayList<>();
-    
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "federal_subject_id")
-    private FederalSubject federalSubject;
-    
+    @OneToOne(cascade = CascadeType.MERGE)
+    private FederalDistrict federalDistrict;
     
     @Override
     public boolean equals(Object o) {
 
         if (o == this) return true;
-        if (!(o instanceof Municipality)) {
+        if (!(o instanceof FederalDistrictForecast)) {
             return false;
         }
-        Municipality object = (Municipality) o;
+        FederalDistrictForecast object = (FederalDistrictForecast) o;
         return Objects.equals(id, object.id);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(title, id);
+        return Objects.hash(year, id);
     }
     
 }

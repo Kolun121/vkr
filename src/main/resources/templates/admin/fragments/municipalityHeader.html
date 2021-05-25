@@ -13,6 +13,8 @@
                     <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}},'updateMunicipalityAdmin','Основная информация', ${page})"/>
                     
                     <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/water-bodies','listMunicipalityWaterBodiesAdmin','Водные объекты', ${page})"/>
+                    
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/forecasts','listMunicipalityForecastsAdmin','Прогнозы', ${page})"/>
    
                 </ul>
 

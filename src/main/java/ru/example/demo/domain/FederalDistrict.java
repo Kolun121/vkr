@@ -35,6 +35,10 @@ public class FederalDistrict implements Serializable{
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "federalDistrict")
     private List<FederalSubject> federalSubjects = new ArrayList<>();
     
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.MERGE)
+    private FederalDistrictForecast federalDistrictForecast;
+    
     @Override
     public boolean equals(Object o) {
 

@@ -9,6 +9,8 @@
             <input type="hidden" th:field="*{id}" />
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
+            <input type="hidden" th:field="*{federalDistrictForecast}" />
+            
             <h2 class="text-center mt-5">Привязать субъекты РФ</h2>
             <div class="col-md-12 mt-2">
 
