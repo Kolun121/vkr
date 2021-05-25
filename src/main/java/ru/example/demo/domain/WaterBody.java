@@ -30,7 +30,7 @@ public class WaterBody implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
     private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();

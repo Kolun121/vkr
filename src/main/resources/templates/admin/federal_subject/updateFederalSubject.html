@@ -11,6 +11,9 @@
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Средняя стоимость жизни для субъекта (в рублях)', 'averageHumanLifeCost', 'number')}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Допустимый риск гибели людей для субъекта (в рублях)', 'acceptableProbabilityOfDeath', 'number')}" />
+            
             <select th:replace="~{admin/fragments/selectField :: selectField ('Выберите вид субъекта', 'federalSubjectType', ${federalSubjectTypeValues})}" />
             
             

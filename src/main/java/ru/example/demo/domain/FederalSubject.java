@@ -30,7 +30,7 @@ public class FederalSubject implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
         
     private Integer averageHumanLifeCost = 0;
     

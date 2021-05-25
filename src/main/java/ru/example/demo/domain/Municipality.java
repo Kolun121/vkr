@@ -28,9 +28,9 @@ public class Municipality implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
     
-    private Long projectedPopulation;
+    private Integer currentPopulation = 0;
     
     @OneToOne
     private MunicipalityType municipalityType;

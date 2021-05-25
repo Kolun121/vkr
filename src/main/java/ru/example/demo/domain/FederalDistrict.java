@@ -30,7 +30,7 @@ public class FederalDistrict implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    private String title = "Не указано";
         
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "federalDistrict")
     private List<FederalSubject> federalSubjects = new ArrayList<>();
