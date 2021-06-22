@@ -9,16 +9,13 @@
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${municipality}">
             <input type="hidden" th:field="${municipality.id}" />
             <input type="hidden" th:field="*{federalSubject}" />
-            <input type="hidden" th:field="*{municipalityForecast}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета (на момент прогноза)', 'currentPopulation', 'number')}" />
-
             
             <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
         </form>
-
     </div>
 </main>
 

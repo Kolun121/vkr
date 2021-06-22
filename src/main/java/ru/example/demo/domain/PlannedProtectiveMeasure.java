@@ -40,6 +40,7 @@ public class PlannedProtectiveMeasure  implements Serializable{
     private ProtectiveMeasure protectiveMeasure;
     
     @ManyToOne
+    @JoinColumn(name = "municipality_forecast_id")
     private MunicipalityForecast municipalityForecast;
     
     @Override

@@ -5,7 +5,7 @@
 <main class="container mb-5" >
     <div class="container mt-5">
         <h3 class="text-center">Место эксплуатирования маломерных судов</h3>
-        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${vesselOperaionPlace}">
+        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${smallVesselOperationPlace}">
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{waterBody}" />
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
@@ -23,7 +23,7 @@
                         <option th:value="''" th:text="'Не выбрано'"></option>
                         <option th:each="item : ${vesselOperationPlaceProtectiveMeasures}" th:value="${item.id}"
                         th:text="${item.getTitle()}"
-                        th:selected="${#strings.equals(item.id, vesselOperaionPlace.protectiveMeasure?.id)}"
+                        th:selected="${#strings.equals(item.id, smallVesselOperationPlace.protectiveMeasure?.id)}"
                         ></option>
                     </select>
                 </div>

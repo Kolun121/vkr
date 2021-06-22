@@ -41,8 +41,8 @@ public class FederalSubject implements Serializable{
     private FederalSubjectType federalSubjectType;
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    private FederalSubjectForecast federalSubjectForecast;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "federalSubject")
+    private List<FederalSubjectForecast> federalSubjectForecasts = new ArrayList<>();
     
     @JsonIgnore
     @ManyToOne

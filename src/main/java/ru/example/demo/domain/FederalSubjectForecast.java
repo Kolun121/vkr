@@ -35,7 +35,8 @@ public class FederalSubjectForecast implements Serializable{
     
     private Integer projectedPopulation = 0;
     
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
+    @JoinColumn(name = "federal_subject_id")
     private FederalSubject federalSubject;
     
     @Override

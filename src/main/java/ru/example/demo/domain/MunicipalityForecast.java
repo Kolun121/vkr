@@ -35,11 +35,22 @@ public class MunicipalityForecast implements Serializable{
     
     private Integer projectedPopulation = 0;
     
-    @OneToOne(cascade = CascadeType.MERGE)
+    private Integer populationInFirstYear;
+    
+    private Integer populationInSecondYear;
+    
+    private Integer populationInThirdYear;
+    
+    private Integer populationInFourthYear;
+    
+    private Integer populationInFifthYear;
+    
+    @ManyToOne
+    @JoinColumn(name = "municipality_id")
     private Municipality municipality;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipalityForecast")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipalityForecast", orphanRemoval = true)
     private List<PlannedProtectiveMeasure> plannedProtectiveMeasures = new ArrayList<>();
     
     @Override

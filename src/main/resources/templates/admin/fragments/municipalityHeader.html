@@ -12,9 +12,9 @@
                 <ul class="nav nav-tabs mt-5" id="myTabs">
                     <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}},'updateMunicipalityAdmin','Основная информация', ${page})"/>
                     
-                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/water-bodies','listMunicipalityWaterBodiesAdmin','Водные объекты', ${page})"/>
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/forecast','createOrUpdateMunicipalityForecastAdmin','Прогноз рисков муниципалитета', ${page})"/>
                     
-                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/forecasts','listMunicipalityForecastsAdmin','Прогнозы', ${page})"/>
+                    <li th:replace="::navItem (@{'/admin/municipalities/' + ${municipalityId}} + '/water-bodies','listMunicipalityWaterBodiesAdmin','Водные объекты', ${page})"/>
    
                 </ul>
 

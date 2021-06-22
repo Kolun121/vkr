@@ -21,11 +21,13 @@ var columns = [
 
 $('#create').on( 'click', function () {
     
-    $.ajax({
-        url: document.URL + '/new',
-        type: "POST",
-        success: function(result){
-            window.location.replace(document.URL + '/' + result);
-        }
-    });  
+//    $.ajax({
+//        url: document.URL + '/new',
+//        type: "POST",
+//        success: function(result){
+//            window.location.replace(document.URL + '/' + result);
+//        }
+//    });  
+
+    window.location.replace(document.URL + '/new');
 });

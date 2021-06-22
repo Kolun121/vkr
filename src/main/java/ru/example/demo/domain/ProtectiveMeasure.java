@@ -38,10 +38,6 @@ public class ProtectiveMeasure  implements Serializable{
     @Enumerated(value = EnumType.STRING)
     private PlaceType designatedFor;
     
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "protectiveMeasure")
-    private List<PlannedProtectiveMeasure> plannedProtectiveMeasure = new ArrayList<>();
-    
     @OneToMany(cascade = CascadeType.MERGE, mappedBy = "protectiveMeasure")
     private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();
     

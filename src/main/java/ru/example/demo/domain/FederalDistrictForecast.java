@@ -34,8 +34,9 @@ public class FederalDistrictForecast implements Serializable{
     private Year year;
     
     private Integer projectedPopulation = 0;
-    
-    @OneToOne(cascade = CascadeType.MERGE)
+
+    @ManyToOne
+    @JoinColumn(name = "federal_district_id")
     private FederalDistrict federalDistrict;
     
     @Override

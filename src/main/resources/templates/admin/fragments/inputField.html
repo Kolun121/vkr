@@ -14,6 +14,9 @@
                     </th:block>
                     <th:block th:case="'number'">
                         <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" type="number" th:field="*{__${name}__}" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                        </div>
                     </th:block>
 
                     <th:block th:case="'date'">

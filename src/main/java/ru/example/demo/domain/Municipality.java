@@ -36,8 +36,8 @@ public class Municipality implements Serializable{
     private MunicipalityType municipalityType;
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    private MunicipalityForecast municipalityForecast;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipality")
+    private List<MunicipalityForecast> municipalityForecasts = new ArrayList<>();
     
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipality")
