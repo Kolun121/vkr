@@ -1,11 +1,8 @@
 package ru.example.demo.controller.admin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import org.springframework.util.ObjectUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.example.demo.domain.FederalSubject;
@@ -27,6 +23,7 @@ import ru.example.demo.helper.BreadcrumbsListFactory;
 import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
+import ru.example.demo.service.FederalSubjectForecastService;
 import ru.example.demo.service.FederalSubjectService;
 import ru.example.demo.service.MunicipalityService;
 
@@ -35,19 +32,19 @@ import ru.example.demo.service.MunicipalityService;
 @RequestMapping("/admin/federal-subjects")
 public class FederalSubjectController {
     private static final String ADMIN_FEDERAL_SUBJECT_PATH = "admin/federal_subject";
-    
-    
-    
-    
+   
     private final FederalSubjectService federalSubjectService;
+    private final FederalSubjectForecastService federalSubjectForecastService;
     private final MunicipalityService municipalityService;
     
     public FederalSubjectController(
             FederalSubjectService federalDistrictService,
+            FederalSubjectForecastService federalSubjectForecastService,
             MunicipalityService municipalityService
             ) 
     {
         this.federalSubjectService = federalDistrictService;
+        this.federalSubjectForecastService = federalSubjectForecastService;
         this.municipalityService = municipalityService;
     }
     
@@ -70,13 +67,13 @@ public class FederalSubjectController {
         model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECT_CREATE));
         
         List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
-                                    .filter((Municipality municipality) -> {
-                                        if(municipality.getFederalSubject()!= null){
-                                            return false;
-                                        }
-                                        return true;
-                                    })
-                                    .collect((Collectors.toList()));
+                .filter((Municipality municipality) -> {
+                    if(municipality.getFederalSubject()!= null){
+                        return false;
+                    }
+                    return true;
+                })
+                .collect((Collectors.toList()));
         
         model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
         model.addAttribute("availableMunicipalities", availableMunicipalities);
@@ -91,13 +88,13 @@ public class FederalSubjectController {
             model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECT_CREATE));
         
             List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
-                                        .filter((Municipality municipality) -> {
-                                            if(municipality.getFederalSubject()!= null){
-                                                return false;
-                                            }
-                                            return true;
-                                        })
-                                        .collect((Collectors.toList()));
+                .filter((Municipality municipality) -> {
+                    if(municipality.getFederalSubject()!= null){
+                        return false;
+                    }
+                    return true;
+                })
+                .collect((Collectors.toList()));
 
             model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
             model.addAttribute("availableMunicipalities", availableMunicipalities);
@@ -124,15 +121,15 @@ public class FederalSubjectController {
         model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.FEDERAL_SUBJECT, ids));
         
         List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
-                                    .filter((Municipality municipality) -> {
-                                        if(municipality.getFederalSubject()!= null){
-                                            if(!municipality.getFederalSubject().getId().equals(id)){
-                                                return false;
-                                            }
-                                        }
-                                        return true;
-                                    })
-                                    .collect((Collectors.toList()));
+                .filter((Municipality municipality) -> {
+                    if(municipality.getFederalSubject()!= null){
+                        if(!municipality.getFederalSubject().getId().equals(id)){
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+                .collect((Collectors.toList()));
        
         model.addAttribute("federalSubject", federalSubject);
         model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
@@ -149,15 +146,15 @@ public class FederalSubjectController {
             model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.FEDERAL_SUBJECT, ids));
 
             List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
-                                        .filter((Municipality municipality) -> {
-                                            if(municipality.getFederalSubject()!= null){
-                                                if(!municipality.getFederalSubject().getId().equals(id)){
-                                                    return false;
-                                                }
-                                            }
-                                            return true;
-                                        })
-                                        .collect((Collectors.toList()));
+                    .filter((Municipality municipality) -> {
+                        if(municipality.getFederalSubject()!= null){
+                            if(!municipality.getFederalSubject().getId().equals(id)){
+                                return false;
+                            }
+                        }
+                        return true;
+                    })
+                    .collect((Collectors.toList()));
 
             model.addAttribute("federalSubject", federalSubject);
             model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
@@ -168,22 +165,47 @@ public class FederalSubjectController {
             federalSubject.setId(id);
             List<Municipality> municipalitiesOfSubject = municipalityService.findAllByFederalSubjectId(id);
             
-            for (Municipality municipality : federalSubject.getMunicipalities()) {
-                
-                if(municipalitiesOfSubject.contains(municipality)){
-                    municipalitiesOfSubject.remove(municipality);
-                }
-                
-                municipality.setFederalSubject(federalSubject);
+            FederalSubjectForecast federalSubjectForecast = federalSubjectForecastService.findByFederalSubjectId(id);
+            if(federalSubjectForecast == null){
+                federalSubjectForecast = new FederalSubjectForecast();
             }
+            federalSubject.setFederalSubjectForecast(federalSubjectForecast);
+            federalSubjectForecast.setFederalSubject(federalSubject);
+            
+            //Выставляем текущую численность населения субъекта, равной нулю для последующих расчетов
+            federalSubject.setCurrentPopulation(0);
             
             if(!municipalitiesOfSubject.isEmpty()){
                 for (Municipality municipality : municipalitiesOfSubject) {
                     municipality.setFederalSubject(null);
                 }
-                municipalityService.saveAll(municipalitiesOfSubject);
             }
+            
+            //dualbox list проверка и обновление муниципалитетов
+            // Проходим по муниципалитетам, которые были в выбраны в форме
+            // Выставляем субъект для выбранного муниципалитета
+            for (Municipality chosenMunicipality : federalSubject.getMunicipalities()) {
+                
+//                if(municipalitiesOfSubject.contains(chosenMunicipality)){
+//                    municipalitiesOfSubject.remove(chosenMunicipality);
+//                }
+                
+                //Проводим расчеты для текущей численности населения субъекта
+                int tempPopulation = federalSubject.getCurrentPopulation();
+                int municipalityPopulation = chosenMunicipality.getCurrentPopulation();
+                federalSubject.setCurrentPopulation(tempPopulation + municipalityPopulation);
+                
+                chosenMunicipality.setFederalSubject(federalSubject);
+            }
+            
+//            if(!municipalitiesOfSubject.isEmpty()){
+//                for (Municipality municipality : municipalitiesOfSubject) {
+//                    municipality.setFederalSubject(null);
+//                }
+//                municipalityService.saveAll(municipalitiesOfSubject);
+//            }
              
+            municipalityService.saveAll(municipalitiesOfSubject);
             federalSubjectService.save(federalSubject);
             return "redirect:/admin/federal-subjects/" + id;
         }

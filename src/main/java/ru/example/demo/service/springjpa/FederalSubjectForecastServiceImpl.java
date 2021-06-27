@@ -41,14 +41,12 @@ public class FederalSubjectForecastServiceImpl extends AbstractJpaFilteringSorti
     }
     
     @Override
-    public List<FederalSubjectForecast> findAllByFederalSubjectId(Long id) {
-        return this.rRepository.findAllByFederalSubjectId(id);
+    public FederalSubjectForecast findByFederalSubjectId(Long id) {
+        return this.rRepository.findByFederalSubjectId(id);
     }
     
     @Override
-    public Page<FederalSubjectForecast> findAllByFederalSubjectIdPagingRequest(Long id, PagingRequest pagingRequest) {
-        List<FederalSubjectForecast> ts = rRepository.findAllByFederalSubjectId(id);
-       
-        return getPage(ts, pagingRequest);
+    public Page<FederalSubjectForecast> findAllByFederalSubjectIdPagingRequest(Long id, PagingRequest pagingRequest) {       
+        return null;
     }
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.example.demo.domain.FederalSubjectForecast;
 
 public interface FederalSubjectForecastRepository extends JpaRepository<FederalSubjectForecast, Long>{
-    List<FederalSubjectForecast> findAllByFederalSubjectId(Long id);
+    FederalSubjectForecast findByFederalSubjectId(Long federalSubjectId);
 }

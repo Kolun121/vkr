@@ -9,6 +9,18 @@
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${federalSubject}">
             <input type="hidden" th:field="*{id}" />
             
+            <div th:class="${'form-group row'}">
+                   <div class="col-sm-12 col-md-6">
+                       <label class="control-label" th:text="${'Численность субъекта (на момент прогноза)'}" th:for="*{currentPopulation}">Label</label>
+                       <div class="input-group has-error">
+                            <input th:class="${'form-control'}" type="number" th:field="*{currentPopulation}" readonly/>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                            </div>
+                       </div>
+                   </div>
+               </div>
+            
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Средняя стоимость жизни для субъекта (в рублях)', 'averageHumanLifeCost', 'number')}" />

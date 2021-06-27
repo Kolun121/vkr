@@ -45,6 +45,9 @@ public class FederalSubject implements Serializable{
     @NotNull(message = "Значение должно быть заполнено")
     private Integer acceptableProbabilityOfDeath = 0;
     
+    @NotNull(message = "Значение должно быть заполнено")
+    private Integer currentPopulation = 0;
+    
     @Enumerated(value = EnumType.STRING)
     private FederalSubjectType federalSubjectType;
     
