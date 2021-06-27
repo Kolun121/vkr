@@ -8,6 +8,6 @@ import ru.example.demo.helper.paging.PagingRequest;
 
 
 public interface MunicipalityForecastService extends JpaService<MunicipalityForecast, Long> {
-    List<MunicipalityForecast> findAllByMunicipalityId(Long id);
+    MunicipalityForecast findByMunicipalityId(Long id);
     Page<MunicipalityForecast> findAllByMunicipalityIdPagingRequest(Long id, PagingRequest pagingRequest);
 }

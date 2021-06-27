@@ -1,11 +1,11 @@
-<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'createOrUpdateMunicipalityForecastAdmin', 'Создание прогноза')}">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'updateFederalSubjectForecastAdmin', 'Создание прогноза')}">
 <main class="container">
-    <div th:replace="~{admin/fragments/municipalityHeader :: municipalityHeader(${page}, ${municipalityId})}" ></div>
+    <div th:replace="~{admin/fragments/federalSubjectHeader :: federalSubjectHeader(${page}, ${federalSubject.id})}" ></div>
     
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="mt-5">Создание прогноза рисков для муницпалитета</h2>
+                <h2 class="mt-5">Создание прогноза рисков для субъекта</h2>
 
                 <form th:action="@{''}" method="post" th:object="${populationInAnalyzedPeriod}">
     <!--                <input type="hidden" th:field="*{id}" />
@@ -17,7 +17,7 @@
 
                 <div th:class="${'form-group row'}">
                    <div class="col-sm-12 col-md-6">
-                       <label class="control-label" th:text="${'Население муниципалитета (на момент прогноза)'}" th:for="*{populationInFifthYear}">Label</label>
+                       <label class="control-label" th:text="${'Население субъекта (на момент прогноза)'}" th:for="*{populationInFifthYear}">Label</label>
                        <div class="input-group has-error">
                             <input th:class="${'form-control'}" type="number" th:field="*{populationInFifthYear}" readonly/>
                             <div class="input-group-append">
@@ -32,7 +32,7 @@
 
             </div>
             
-            <div class="col-lg-12">
+<!--            <div class="col-lg-12">
                 <h2 class="mt-5">Рассчитанные данные для муницпалитета</h2>
                 <th:block th:unless="${municipalityForecast.populationDynamicsCoefficient}">
                     <h4 class="mt-5">Рассчеты не произведены</h4>
@@ -125,7 +125,7 @@
 
                       </div>
                 </th:block>
-            </div>
+            </div>-->
         </div>
        
     </div>

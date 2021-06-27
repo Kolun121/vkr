@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateFederalSubjectAdmin', 'Информация о субъекте РФ')}">
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'createFederalSubjectAdmin', 'Создание субъекта')}">
     
 <main class="container mb-5" >
-    <div class="container mt-5">
-        <div th:replace="~{admin/fragments/federalSubjectHeader :: federalSubjectHeader(${page}, ${federalSubject.id})}" ></div>
-        <h3 class="text-center">Обновить информацию о субъекте</h3>
+    <div class="container">
+        <h3 class="text-center">Создание субъекта</h3>
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${federalSubject}">
-            <input type="hidden" th:field="*{id}" />
-            
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Средняя стоимость жизни для субъекта (в рублях)', 'averageHumanLifeCost', 'number')}" />
@@ -28,9 +25,8 @@
                         </option>
                     </select>
             </div>
-            <button class="btn btn-primary" id="submit_button" type="submit" th:text="'Обновить'"></button>
+            <button class="btn btn-primary" type="submit" th:text="'Создать'"></button>
         </form>
-
     </div>
 </main>
 

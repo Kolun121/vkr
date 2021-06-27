@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import ru.example.demo.domain.enumeration.FederalSubjectType;
@@ -31,18 +34,23 @@ public class FederalSubject implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title = "Не указано";
+    @NotEmpty(message = "Значение должно быть заполнено")
+    private String title;
         
+    @Min(value = 1, message = "Значение должно быть больше нуля")
+    @NotNull(message = "Значение должно быть заполнено")
     private Integer averageHumanLifeCost = 0;
     
+    @Min(value = 1, message = "Значение должно быть больше нуля")
+    @NotNull(message = "Значение должно быть заполнено")
     private Integer acceptableProbabilityOfDeath = 0;
     
     @Enumerated(value = EnumType.STRING)
     private FederalSubjectType federalSubjectType;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "federalSubject")
-    private List<FederalSubjectForecast> federalSubjectForecasts = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    private FederalSubjectForecast federalSubjectForecast;
     
     @JsonIgnore
     @ManyToOne

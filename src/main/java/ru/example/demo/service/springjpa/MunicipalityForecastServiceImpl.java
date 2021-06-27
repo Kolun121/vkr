@@ -24,7 +24,8 @@ public class MunicipalityForecastServiceImpl extends AbstractJpaFilteringSorting
     protected Predicate<MunicipalityForecast> formTPredicate(String value) {
         Predicate<MunicipalityForecast> predicate = m -> 
         {
-            return m.getYear().toString().toLowerCase().contains(value);
+//            return m.getYear().toString().toLowerCase().contains(value);
+            return true;
         };
         
         return predicate;
@@ -41,15 +42,15 @@ public class MunicipalityForecastServiceImpl extends AbstractJpaFilteringSorting
     }
     
     @Override
-    public List<MunicipalityForecast> findAllByMunicipalityId(Long id) {
-        return this.rRepository.findAllByMunicipalityId(id);
+    public MunicipalityForecast findByMunicipalityId(Long id) {
+        return this.rRepository.findByMunicipalityId(id);
     }
     
     @Override
     public Page<MunicipalityForecast> findAllByMunicipalityIdPagingRequest(Long id, PagingRequest pagingRequest) {
-        List<MunicipalityForecast> ts = rRepository.findAllByMunicipalityId(id);
+//        List<MunicipalityForecast> ts = rRepository.findAllByMunicipalityId(id);
        
-        return getPage(ts, pagingRequest);
+        return null;
     }
     
 }

@@ -1,9 +1,11 @@
 package ru.example.demo.controller.admin;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.util.ObjectUtils;
@@ -21,17 +23,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.example.demo.domain.CrowdedPlace;
 import ru.example.demo.domain.MunicipalityForecast;
 import ru.example.demo.domain.Municipality;
-import ru.example.demo.domain.PlannedProtectiveMeasure;
+import ru.example.demo.domain.AppliedProtectiveMeasure;
 import ru.example.demo.domain.ProtectiveMeasure;
+import ru.example.demo.domain.SmallVesselOperationPlace;
+import ru.example.demo.domain.WaterBody;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.Utils;
+import ru.example.demo.helper.objects.Breadcrumb;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.objects.PopulationInAnalyzedPeriod;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.MunicipalityForecastService;
 import ru.example.demo.service.MunicipalityService;
 import ru.example.demo.service.ProtectiveMeasureService;
-import ru.example.demo.service.PlannedProtectiveMeasureService;
+import ru.example.demo.service.AppliedProtectiveMeasureService;
 
 
 @Controller("adminMunicipalityForecastController")
@@ -39,254 +48,285 @@ import ru.example.demo.service.PlannedProtectiveMeasureService;
 public class MunicipalityForecastController {
     private static final String ADMIN_MUNICIPALITY_FORECAST_PATH = "admin/municipality_forecast";
     
-    
-    
-    
     private final MunicipalityService municipalityService;
     private final MunicipalityForecastService municipalityForecastService;
-    private final ProtectiveMeasureService protectiveMeasureService;
-    private final PlannedProtectiveMeasureService plannedProtectiveMeasureService;
+    private final AppliedProtectiveMeasureService appliedProtectiveMeasureService;
     
+
     public MunicipalityForecastController(
             MunicipalityService municipalityService,
             MunicipalityForecastService municipalityForecastService,
-            ProtectiveMeasureService protectiveMeasureService,
-            PlannedProtectiveMeasureService plannedProtectiveMeasureService
+            AppliedProtectiveMeasureService appliedProtectiveMeasureService
             ) 
     {
         this.municipalityService = municipalityService;
         this.municipalityForecastService = municipalityForecastService;
-        this.protectiveMeasureService = protectiveMeasureService;
-        this.plannedProtectiveMeasureService = plannedProtectiveMeasureService;
+        this.appliedProtectiveMeasureService = appliedProtectiveMeasureService;
     }
     
     
     @GetMapping("{municipalityId}/forecast")
-    public String getMunicipalityForecastCreateOrUpdatePage(@PathVariable Long municipalityId, Model model){
-        PopulationInAnalyzedPeriod populationInAnalyzedPeriod = new PopulationInAnalyzedPeriod();
+    public String getMunicipalityForecastCreatePage(@PathVariable Long municipalityId, Model model){
         Municipality municipality = municipalityService.findById(municipalityId);
+        
+        long [] ids = new long[]{municipalityId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.MUNICIPALITY_FORECAST, ids));
+        
+        
+        PopulationInAnalyzedPeriod populationInAnalyzedPeriod = new PopulationInAnalyzedPeriod();
+        
+        if(municipality.getMunicipalityForecast() != null){
+            populationInAnalyzedPeriod.setPopulationInFirstYear(municipality.getMunicipalityForecast().getPopulationInFirstYear());
+            populationInAnalyzedPeriod.setPopulationInSecondYear(municipality.getMunicipalityForecast().getPopulationInSecondYear());
+            populationInAnalyzedPeriod.setPopulationInThirdYear(municipality.getMunicipalityForecast().getPopulationInThirdYear());
+            populationInAnalyzedPeriod.setPopulationInFourthYear(municipality.getMunicipalityForecast().getPopulationInFourthYear());
+        }
         
         populationInAnalyzedPeriod.setPopulationInFifthYear(municipality.getCurrentPopulation());
         
         model.addAttribute("municipalityId", municipalityId);
         model.addAttribute("populationInAnalyzedPeriod", populationInAnalyzedPeriod);
+        model.addAttribute("municipalityForecast", municipality.getMunicipalityForecast());
                 
         return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
     }
     
-
-    @GetMapping("{municipalityId}/forecasts/new")
-    public String municipalityForecastCreatePage(@PathVariable Long municipalityId, Model model){
-        MunicipalityForecast municipalityForecast = new MunicipalityForecast();
-        
-        municipalityForecast.setMunicipality(municipalityService.findById(municipalityId));
-        
-        List<ProtectiveMeasure> protectiveMeasuresAll = protectiveMeasureService.findAll();
-        List<PlannedProtectiveMeasure> plannedProtectiveMeasuresArr = new ArrayList<>();
-        
-        for (ProtectiveMeasure protectiveMeasure : protectiveMeasuresAll) {
-            PlannedProtectiveMeasure plannedProtectiveMeasure = new PlannedProtectiveMeasure();
-            
-            plannedProtectiveMeasure.setMunicipalityForecast(municipalityForecast);
-            plannedProtectiveMeasure.setAmountOfMeasures(0);
-            
-            plannedProtectiveMeasure.setProtectiveMeasure(protectiveMeasure);
-            
-           
-            plannedProtectiveMeasuresArr.add(plannedProtectiveMeasure);
-        }
-        
-        municipalityForecast.setPlannedProtectiveMeasures(plannedProtectiveMeasuresArr);
-        
-        model.addAttribute("municipalityForecast", municipalityForecast);
-//        plannedProtectiveMeasureService.saveAll(plannedProtectiveMeasures);
-//        MunicipalityForecast savedMunicipalityForecast = municipalityForecastService.save(municipalityForecast);
-
-        return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
-    }
     
     @PostMapping("{municipalityId}/forecast")
-    public String newMunicipalityForecast(@PathVariable Long municipalityId,Model model, @Valid PopulationInAnalyzedPeriod populationInAnalyzedPeriod, BindingResult result){
+    public String createOrUpdateMunicipalityForecast(@PathVariable Long municipalityId,Model model, @Valid PopulationInAnalyzedPeriod populationInAnalyzedPeriod, BindingResult result){
         
         if (result.hasErrors()) {
             
             return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
         } else {
-            
-//            municipalityForecast.getPlannedProtectiveMeasures().stream().forEach(m -> m.setMunicipalityForecast(municipalityForecast));
-//            
-//            municipalityForecastService.save(municipalityForecast);
+           Municipality municipality = municipalityService.findById(municipalityId);
+           MunicipalityForecast municipalityForecast;
+           
+           if(municipality.getMunicipalityForecast() != null){
+               municipalityForecast = municipality.getMunicipalityForecast();
+           } else {
+               municipalityForecast = new MunicipalityForecast();
+               
+               municipalityForecast.setMunicipality(municipality);
+               municipality.setMunicipalityForecast(municipalityForecast);
+           }
+           
+        
+           
+            municipalityForecast.setPopulationInFirstYear(populationInAnalyzedPeriod.getPopulationInFirstYear());
+            municipalityForecast.setPopulationInSecondYear(populationInAnalyzedPeriod.getPopulationInSecondYear());
+            municipalityForecast.setPopulationInThirdYear(populationInAnalyzedPeriod.getPopulationInThirdYear());
+            municipalityForecast.setPopulationInFourthYear(populationInAnalyzedPeriod.getPopulationInFourthYear());
 
-            return "redirect:/admin/municipalities/" + municipalityId + "/forecasts";
-        }
-    }
-    
-    @PostMapping("{municipalityId}/forecasts/{municipalityForecastId}")
-    public String updateMunicipalityForecast(@PathVariable Long municipalityId, @PathVariable Long municipalityForecastId,Model model, @Valid MunicipalityForecast municipalityForecast, BindingResult result){
-        if (result.hasErrors()) {
+            //Текущее население муниципалитета
+            int municipalityCurrentPopulation = municipality.getCurrentPopulation();
             
-            return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
-        } else {
-            
-            int municipalityCurrentPopulation = municipalityForecast.getMunicipality().getCurrentPopulation();
-            
-            double municipalityProjectedPopulation = (double) municipalityForecast.getProjectedPopulation();
-            
-            double averageHumanLifeCost = (double) municipalityForecast.getMunicipality().getFederalSubject().getAverageHumanLifeCost();
-            System.out.println("Текущее население муниципалитета - " + municipalityCurrentPopulation);
-            System.out.println("Прогнозное население муниципалитета - " + municipalityProjectedPopulation);
-            System.out.println("Средняя статистическая стоимость жизни для субъекта - " + averageHumanLifeCost);
-//            ------------------------Расчеты---------------------------------------
+            municipalityForecast.setPopulationInFifthYear(municipalityCurrentPopulation);
 
+            //коэффицент прироста численности населения
+            municipalityForecast.setPopulationDynamicsCoefficient(populationInAnalyzedPeriod.getPopulationDynamicsCoefficient());
 
-
-            AtomicReference<Double> probabilityOfDeathMunicipalityMSL = new AtomicReference<>();
-            probabilityOfDeathMunicipalityMSL.set(Double.valueOf(0));
-
-            AtomicReference<Double> riskOfDeathDeathMunicipalityMSL = new AtomicReference<>();
-            riskOfDeathDeathMunicipalityMSL.set(Double.valueOf(0));
-            
-            AtomicReference<Double> probabilityOfDeathMunicipalityMMS = new AtomicReference<>();
-            probabilityOfDeathMunicipalityMMS.set(Double.valueOf(0));
-
-            AtomicReference<Double> riskOfDeathDeathMunicipalityMMS = new AtomicReference<>();
-            riskOfDeathDeathMunicipalityMMS.set(Double.valueOf(0));
-            
-            municipalityForecast.getMunicipality().getWaterBodies()
-                    .stream()
-                    .forEach(waterBody -> 
-                    {
-                       
-                        System.out.println("-----------------------------Расчеты рисков и вероятностей---------------------------------------");
-                        System.out.println("Водный объект - " + waterBody.getTitle());
-                        System.out.println("-----------------Места массового скопления-------------");
-                        
-//                        double probabilityOfDeathMunicipalityMSL = 0;
-//                        double riskOfDeathDeathMunicipalityMSL = 0;
-                        
-//                        AtomicReference<Double> probabilityOfDeathMunicipalityMSL = new AtomicReference<>();
-//                        probabilityOfDeathMunicipalityMSL.set(Double.valueOf(0));
-//                        
-//                        AtomicReference<Double> riskOfDeathDeathMunicipalityMSL = new AtomicReference<>();
-//                        riskOfDeathDeathMunicipalityMSL.set(Double.valueOf(0));
-                        
-                        
-                        waterBody.getCrowdedPlaces()
-                                .stream()
-                                .forEach(crowdedPlace ->
-                                {
-                                    System.out.println("МСЛ - " + crowdedPlace.getTitle());
-                                    double probabilityOfDeath = (double) crowdedPlace.getDeathToll() / (double) municipalityCurrentPopulation;
-                                    System.out.printf("Вероятность смерти - %.10f", probabilityOfDeath);
-                                    System.out.println("");
-                                    
-                                    probabilityOfDeathMunicipalityMSL
-                                            .set(probabilityOfDeathMunicipalityMSL.get() + probabilityOfDeath);
-                                    
-                                    double riskOfDeath = probabilityOfDeath * municipalityProjectedPopulation * averageHumanLifeCost;
-                                    
-                                    riskOfDeathDeathMunicipalityMSL
-                                            .set(riskOfDeathDeathMunicipalityMSL.get() + riskOfDeath);
-                                    
-                                    System.out.printf("Риск смерти - %.10f", riskOfDeath);
-                                    System.out.println("");
-                                }
-                                );
-                        
-                        System.out.println("");
-                        System.out.println("Водный объект - " + waterBody.getTitle());
-                        System.out.println("-----------------Места эксплуатации маломерных судов-------------");
-                        waterBody.getSmallVesselsOperationPlaces()
-                                .stream()
-                                .forEach(smallVesselPlace ->
-                                {
-                                    System.out.println("ММС - " + smallVesselPlace.getTitle());
-                                    double probabilityOfDeath = (double) smallVesselPlace.getDeathToll() / (double) municipalityCurrentPopulation;
-                                    System.out.printf("Вероятность смерти - %.10f", probabilityOfDeath);
-                                    System.out.println("");
-                                    
-                                    probabilityOfDeathMunicipalityMMS
-                                            .set(probabilityOfDeathMunicipalityMMS.get() + probabilityOfDeath);
-                                   
-                                    
-                                    double riskOfDeath = probabilityOfDeath * municipalityProjectedPopulation * averageHumanLifeCost;
-            
-                                    riskOfDeathDeathMunicipalityMMS
-                                            .set(riskOfDeathDeathMunicipalityMMS.get() + riskOfDeath);
-                                    
-                                    
-                                    System.out.printf("Риск смерти - %.10f", riskOfDeath);
-                                    System.out.println("");
-                                }
-                                );
-                    }
+            //прогнозируемая численность населения
+            int municipalityProjectedPopulation = 
+                    (int)(
+                     populationInAnalyzedPeriod.getPopulationDynamicsCoefficient() 
+                                                  * 
+                     municipality.getCurrentPopulation()
                     );
-            
-            System.out.println("");
-                        
-            System.out.printf("Вероятность смерти для муниципалитета МСЛ - %.10f", probabilityOfDeathMunicipalityMSL.get());
-            System.out.println("");
-            System.out.printf("Риск смерти для муниципалитета МСЛ - %.10f", riskOfDeathDeathMunicipalityMSL.get());
-            
-            System.out.println("");
-            System.out.printf("Вероятность смерти для муниципалитета ММС - %.10f", probabilityOfDeathMunicipalityMMS.get());
-            System.out.println("");
-            System.out.printf("Риск смерти для муниципалитета ММС - %.10f", riskOfDeathDeathMunicipalityMMS.get());
-            System.out.println("");
-            
-            
-            
-            double probabilityOfDeathMunicipality = probabilityOfDeathMunicipalityMSL.get() + probabilityOfDeathMunicipalityMMS.get();
-            
-            double riskOfDeathMunicipality = riskOfDeathDeathMunicipalityMMS.get() + riskOfDeathDeathMunicipalityMMS.get();
-            
-            System.out.println("");
-            System.out.printf("Общая вероятность смерти для муниципалитета - %.10f", probabilityOfDeathMunicipality);
-            System.out.println("");
-            System.out.printf("Общий риск смерти для муниципалитета - %.10f", riskOfDeathMunicipality);
-            System.out.println("");
 
+            municipalityForecast.setProjectedPopulation(municipalityProjectedPopulation);
 
+            //средняя цена жизни для муниципалитета
+            double averageHumanLifeCostMunicipality = (double) municipality.getAverageHumanLifeCost();
+           
+            //Вероятность смерти для мест массового скопления
+            double probabilityOfDeathMunicipalityMSL = 0;
             
-//            ------------------------Конец Расчетов---------------------------------------
+            //Риск смерти для мест массового скопления
+            double riskOfDeathDeathMunicipalityMSL = 0;
+            
+            //Вероятность смерти для мест эксплуатации судов
+            double probabilityOfDeathMunicipalityMMS = 0;
+
+            //Риск смерти для мест эксплуатации судов
+            double riskOfDeathDeathMunicipalityMMS = 0;
+            
+            //Примененные защитные меры к водным объектам муниципалитета
+            List<AppliedProtectiveMeasure> appliedProtectiveMeasures = new ArrayList<>();
+            
+            //Водные объекты муниципадитета
+            List<WaterBody> waterBodies = municipality.getWaterBodies();
+            
+            for(var waterBody: waterBodies){
+                List<CrowdedPlace> crowdedPlaces = waterBody.getCrowdedPlaces();
+                List<SmallVesselOperationPlace> smallVesselOperationPlaces = waterBody.getSmallVesselsOperationPlaces();
+                
+                List<CrowdedPlace> crowdedPlacesWithoutMeasures = waterBody.getCrowdedPlaces()
+                        .stream()
+                        .filter(cp -> cp.getProtectiveMeasure() == null)
+                        .collect(Collectors.toList());
+                
+                List<SmallVesselOperationPlace> smallVesselWithoutMeasures = waterBody.getSmallVesselsOperationPlaces()
+                        .stream()
+                        .filter(cp -> cp.getProtectiveMeasure() == null)
+                        .collect(Collectors.toList());
+                
+                
+                //---------------------МЕСТА МАССОВОГО СКОПЛЕНИЯ ЛЮДЕЙ---------------------------------------------
+                for(var crowdedPlace: crowdedPlaces){
+                    System.out.println("МСЛ - " + crowdedPlace.getTitle());
+                    
+                    double probabilityOfDeath = Utils.calculateProbabiltyOfDeath(crowdedPlace.getDeathToll(), municipalityCurrentPopulation);
+
+                    //добавляем к общей вероятности смерти МСЛ
+                    probabilityOfDeathMunicipalityMSL = Utils.addUpDoubles(probabilityOfDeathMunicipalityMSL, probabilityOfDeath);
+                    
+                    double riskOfDeath = Utils.calculateRiskOfDeath(probabilityOfDeath, municipalityProjectedPopulation, averageHumanLifeCostMunicipality);
+
+                    //добавляем к общему риску смерти МСЛ
+                    riskOfDeathDeathMunicipalityMSL = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMSL, riskOfDeath);
+                    
+                    System.out.printf("Риск смерти - %.10f", riskOfDeath);
+                    System.out.println("");
+                    
+                    if(crowdedPlace.getProtectiveMeasure() == null){continue;}
+                    
+                    ProtectiveMeasure protectiveMeasure = crowdedPlace.getProtectiveMeasure();
+                    //Расчет коэффицента эффективности защитных мер
+                    double coefficent;
+                    
+                    AppliedProtectiveMeasure appliedProtectiveMeasure = new AppliedProtectiveMeasure();
+                    appliedProtectiveMeasure.setProtectiveMeasure(protectiveMeasure);
+                    appliedProtectiveMeasure.setMunicipalityForecast(municipalityForecast);
+                    
+                    appliedProtectiveMeasures.add(appliedProtectiveMeasure);
+                    
+                    if(crowdedPlacesWithoutMeasures.isEmpty()) {
+                        continue;
+                    }
+                    
+                    CrowdedPlace crowdedPlaceComparedTo;
+                    Optional<CrowdedPlace> cpOp = 
+                    crowdedPlacesWithoutMeasures
+                        .stream()
+                        .filter(cp -> {
+                            
+                            return 
+                                cp.getTypeOfCrowdedPlace().getValue().equals(protectiveMeasure.getDesignatedFor().getValue());
+                        })
+                        .findFirst();
+                    
+                    if(cpOp.isPresent()){
+                        crowdedPlaceComparedTo = cpOp.get();
+                    }else {
+                        crowdedPlaceComparedTo = crowdedPlacesWithoutMeasures
+                        .stream()
+                        .findFirst()
+                        .get();
+                    }
+                    
+                    double divident = crowdedPlaceComparedTo.getDeathToll() * averageHumanLifeCostMunicipality;
+                    double divider = crowdedPlace.getDeathToll() * averageHumanLifeCostMunicipality + crowdedPlace.getProtectiveMeasureCost();
+                    
+                    coefficent = Utils.divideDoubles(divident, divider);
+                    
+                    appliedProtectiveMeasure.setEfficencyCoefficent(coefficent);
+                    appliedProtectiveMeasure.setProtectivemeasureCost(crowdedPlace.getProtectiveMeasureCost());
+                    
+                }
+                //---------------------МЕСТА МАССОВОГО СКОПЛЕНИЯ ЛЮДЕЙ---------------------------------------------
+                
+                
+                //---------------------МЕСТА ЭКСПЛУАТАЦИИ СУДОВ---------------------------------------------
+                for(var smallVesselPlace: smallVesselOperationPlaces){
+                    System.out.println("ММС - " + smallVesselPlace.getTitle());
+                    
+                    double probabilityOfDeath = Utils.calculateProbabiltyOfDeath(smallVesselPlace.getDeathToll(), municipalityCurrentPopulation);
+                    System.out.printf("Вероятность смерти - %.10f", probabilityOfDeath);
+                    System.out.println("");
+
+                    //добавляем к общей вероятности смерти ММС
+                    probabilityOfDeathMunicipalityMMS = Utils.addUpDoubles(probabilityOfDeathMunicipalityMMS, probabilityOfDeath);
+                    
+                    double riskOfDeath = Utils.calculateRiskOfDeath(probabilityOfDeath, municipalityProjectedPopulation, averageHumanLifeCostMunicipality);
+
+                    //добавляем к общему риску смерти ММС
+                    riskOfDeathDeathMunicipalityMMS = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeath);
+
+                    System.out.println("Риск смерти - %.10f" + riskOfDeath);
+                    System.out.println("");
+                    
+                    if(smallVesselPlace.getProtectiveMeasure() == null){continue;}
+                    
+                    ProtectiveMeasure protectiveMeasure = smallVesselPlace.getProtectiveMeasure();
+                    //Расчет коэффицента эффективности защитных мер
+                    double coefficent;
+                    
+                    AppliedProtectiveMeasure appliedProtectiveMeasure = new AppliedProtectiveMeasure();
+                    appliedProtectiveMeasure.setProtectiveMeasure(protectiveMeasure);
+                    appliedProtectiveMeasure.setMunicipalityForecast(municipalityForecast);
+                    
+                    appliedProtectiveMeasures.add(appliedProtectiveMeasure);
+                    
+                    if(smallVesselWithoutMeasures.isEmpty()) {
+                        continue;
+                    }
+                    
+                    SmallVesselOperationPlace smallVesselComparedTo;
+                    
+                    smallVesselComparedTo = smallVesselWithoutMeasures
+                    .stream()
+                    .findFirst()
+                    .get();
+                  
+                    
+                    double divident = smallVesselComparedTo.getDeathToll() * averageHumanLifeCostMunicipality;
+                    double divider = smallVesselComparedTo.getDeathToll() * averageHumanLifeCostMunicipality + smallVesselComparedTo.getProtectiveMeasureCost();
+                    
+                    coefficent = Utils.divideDoubles(divident, divider);
+    
+                    appliedProtectiveMeasure.setEfficencyCoefficent(coefficent);
+                    appliedProtectiveMeasure.setProtectivemeasureCost(smallVesselComparedTo.getProtectiveMeasureCost());
+                }
+                //---------------------МЕСТА ЭКСПЛУАТАЦИИ СУДОВ---------------------------------------------
+                
+            }
+            
+            //Вероятности смерти для мсл и ммс
+            municipalityForecast.setProbabilityOfDeathMMSMunicipality(probabilityOfDeathMunicipalityMMS);
+            municipalityForecast.setProbabilityOfDeathMSLMunicipality(probabilityOfDeathMunicipalityMSL);
+            
+            //Риски смерти для мсл и ммс
+            municipalityForecast.setRiskOfDeathMMSMunicipality(riskOfDeathDeathMunicipalityMMS);
+            municipalityForecast.setRiskOfDeathMSLMunicipality(riskOfDeathDeathMunicipalityMSL);
+            
+            System.out.println("probabilityOfDeathMunicipalityMMS - " + probabilityOfDeathMunicipalityMMS);
+            System.out.println("probabilityOfDeathMunicipalityMSL - " + probabilityOfDeathMunicipalityMSL);
+            
+            System.out.println("riskOfDeathDeathMunicipalityMMS - " + riskOfDeathDeathMunicipalityMMS);
+            System.out.println("riskOfDeathDeathMunicipalityMSL - " + riskOfDeathDeathMunicipalityMSL);
+            
+            
+            //Общая вероятность смерти для муниципалитета
+            double probabilityOfDeathMunicipality = probabilityOfDeathMunicipalityMSL + probabilityOfDeathMunicipalityMMS;
+            municipalityForecast.setProbabilityOfDeathMunicipality(probabilityOfDeathMunicipality);
+            
+            //Общий риск смерти для муниципалитета
+            double riskOfDeathMunicipality = riskOfDeathDeathMunicipalityMMS + riskOfDeathDeathMunicipalityMMS;
+            municipalityForecast.setRiskOfDeathMunicipality(riskOfDeathMunicipality);
+           
+            //КОНЕЦ РАСЧЕТОВ
+            
+            if(municipalityForecast.getId() != null){
+                List<AppliedProtectiveMeasure> list = appliedProtectiveMeasureService.findAllByMunicipalityForecastId(municipalityForecast.getId());
+
+                appliedProtectiveMeasureService.deleteAll(list);
+            }
+            municipalityForecast.setAppliedProtectiveMeasure(appliedProtectiveMeasures);
             municipalityForecastService.save(municipalityForecast);
 
-            return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
+            return "redirect:/admin/municipalities/" + municipalityId + "/forecast";
         }
     }
     
-    
-    @GetMapping("{municipalityId}/forecasts/{municipalityForecastId}") 
-    public String getMunicipalityForecastById(@PathVariable Long municipalityId, @PathVariable Long municipalityForecastId, Model model) {
-        MunicipalityForecast municipalityForecast = municipalityForecastService.findById(municipalityForecastId);
-
-//        List<ProtectiveMeasure> protectiveMeasuresAll = protectiveMeasureService.findAll();
-//        List<PlannedProtectiveMeasure> plannedProtectiveMeasuresArr = new ArrayList<>();
-//        
-//        for (ProtectiveMeasure protectiveMeasure : protectiveMeasuresAll) {
-//            PlannedProtectiveMeasure plannedProtectiveMeasure = new PlannedProtectiveMeasure();
-//            
-//            plannedProtectiveMeasure.setMunicipalityForecast(municipalityForecast);
-//            plannedProtectiveMeasure.setAmountOfMeasures(0);
-//            
-//            plannedProtectiveMeasure.setProtectiveMeasure(protectiveMeasure);
-//            protectiveMeasure.getPlannedProtectiveMeasure().add(plannedProtectiveMeasure);
-//            
-//           
-//            plannedProtectiveMeasuresArr.add(plannedProtectiveMeasure);
-//        }
-//        
-//        municipalityForecast.setPlannedProtectiveMeasures(plannedProtectiveMeasuresArr);
-        
-        model.addAttribute("municipalityForecast", municipalityForecast);
-        model.addAttribute("municipalityId", municipalityId);
-        
-        return ADMIN_MUNICIPALITY_FORECAST_PATH + "/createOrUpdateMunicipalityForecast";
-    }
-
-    @DeleteMapping("{municipalityId}/forecasts/delete")
-    @ResponseBody
-    public void deleteMunicipalityForecasts(@RequestBody List<MunicipalityForecast> listMunicipalityForecasts){
-        municipalityForecastService.deleteAll(listMunicipalityForecasts);
-    }
 }

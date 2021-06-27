@@ -27,8 +27,8 @@ public final class MunicipalityForecastComparators {
     
 
     static {
-        map.put(new Key("id", Direction.asc), Comparator.comparing(MunicipalityForecast::getYear));
-        map.put(new Key("id", Direction.desc), Comparator.comparing(MunicipalityForecast::getYear)
+        map.put(new Key("id", Direction.asc), Comparator.comparing(MunicipalityForecast::getId));
+        map.put(new Key("id", Direction.desc), Comparator.comparing(MunicipalityForecast::getId)
                                                            .reversed());
 
     }

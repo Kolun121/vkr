@@ -6,15 +6,16 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
     </th:block>
         
-    <th:block th:case="listMunicipalityForecastsAdmin">
-        <!--Прогнозы муниципалитета-->
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+    <th:block th:case="createOrUpdateMunicipalityForecastAdmin">
+        <!--Создание или обновление прогноза для муниципалитета-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/municipality_forecast.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
     </th:block>
-    <th:block th:case="createMunicipalityForecastAdmin">
-        <!--Создание прогноза для муниципалитета-->
         
+    <th:block th:case="createMunicipalityAdmin">
+        <!--Создание муниципалитета-->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
     </th:block>
     
     <th:block th:case="listProtectiveMeasuresAdmin">
@@ -25,12 +26,14 @@
     </th:block>
         
     <th:block th:case="updateMunicipalityAdmin">
-        <!--Муниципалитеты-->
+        <!--Муниципалитет-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
     </th:block>
         
     <th:block th:case="listMunicipalityWaterBodiesAdmin">
         <!--Водные объекты муниципалитета-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
@@ -38,6 +41,7 @@
         
     <th:block th:case="updateWaterBodyAdmin">
         <!--Водный объект-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
     </th:block>
         
@@ -46,6 +50,8 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
+        
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
     </th:block>
         
     <th:block th:case="updateCrowdedPlaceAdmin">
@@ -58,6 +64,7 @@
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
     </th:block>
         
     <th:block th:case="updateVesselOperaionPlaceAdmin">
@@ -80,6 +87,14 @@
     <th:block th:case="updateFederalSubjectAdmin">
         <!--Субъекты РФ-->
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+    </th:block>
+        
+    <th:block th:case="createFederalSubjectAdmin">
+        <!-- Создание Субъекта РФ-->
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
     </th:block>
 
     <th:block th:case="listFederalDistrictsAdmin">
@@ -90,7 +105,6 @@
     </th:block>
  
     <th:block th:case="updateFederalDistrictAdmin">
-        
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
     </th:block>
  

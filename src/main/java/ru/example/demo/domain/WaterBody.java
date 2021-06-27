@@ -32,9 +32,11 @@ public class WaterBody implements Serializable{
     
     private String title = "Не указано";
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
     private List<CrowdedPlace> crowdedPlaces = new ArrayList<>();
     
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "waterBody")
     private List<SmallVesselOperationPlace> smallVesselsOperationPlaces = new ArrayList<>();
     

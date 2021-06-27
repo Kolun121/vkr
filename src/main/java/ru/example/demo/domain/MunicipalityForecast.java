@@ -1,10 +1,7 @@
 package ru.example.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
-import java.sql.Date;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,10 +27,10 @@ public class MunicipalityForecast implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+        
+    private Float populationDynamicsCoefficient;
     
-    private String year;
-    
-    private Integer projectedPopulation = 0;
+    private Integer projectedPopulation;
     
     private Integer populationInFirstYear;
     
@@ -45,13 +42,23 @@ public class MunicipalityForecast implements Serializable{
     
     private Integer populationInFifthYear;
     
-    @ManyToOne
-    @JoinColumn(name = "municipality_id")
-    private Municipality municipality;
+    private Double probabilityOfDeathMSLMunicipality;
     
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipalityForecast", orphanRemoval = true)
-    private List<PlannedProtectiveMeasure> plannedProtectiveMeasures = new ArrayList<>();
+    private Double riskOfDeathMSLMunicipality;
+    
+    private Double probabilityOfDeathMMSMunicipality;
+    
+    private Double riskOfDeathMMSMunicipality;
+    
+    private Double probabilityOfDeathMunicipality;
+    
+    private Double riskOfDeathMunicipality;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipalityForecast")
+    private List<AppliedProtectiveMeasure> appliedProtectiveMeasure = new ArrayList<>();
+    
+    @OneToOne()
+    private Municipality municipality;
     
     @Override
     public boolean equals(Object o) {
@@ -66,7 +73,7 @@ public class MunicipalityForecast implements Serializable{
     
     @Override
     public int hashCode() {
-        return Objects.hash(year, id);
+        return Objects.hash(id);
     }
     
 }

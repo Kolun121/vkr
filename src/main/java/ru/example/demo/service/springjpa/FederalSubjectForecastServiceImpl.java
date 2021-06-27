@@ -24,7 +24,7 @@ public class FederalSubjectForecastServiceImpl extends AbstractJpaFilteringSorti
     protected Predicate<FederalSubjectForecast> formTPredicate(String value) {
         Predicate<FederalSubjectForecast> predicate = m -> 
         {
-            return m.getYear().toString().toLowerCase().contains(value);
+            return m.getId().toString().toLowerCase().contains(value);
         };
         
         return predicate;

@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" 
-      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateMunicipalityAdmin', 'Информация о муниципалитете')}">
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'createMunicipalityAdmin', 'Создание муниципалитета')}">
     
 <main class="container mb-5" >
     <div class="container">
-        <div th:replace="~{admin/fragments/municipalityHeader :: municipalityHeader(${page}, ${municipality.id})}" />
-        <h3 class="text-center">Обновить информацию о муниципалитете</h3>
+        <h3 class="text-center">Создание муниципалитете</h3>
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${municipality}">
             <input type="hidden" th:field="${municipality.id}" />
-            <input type="hidden" th:field="*{federalSubject}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
@@ -16,7 +14,7 @@
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета (на момент прогноза)', 'currentPopulation', 'number')}" />
             
-            <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
+            <button class="btn btn-primary" type="submit" th:text="'Создать'"></button>
         </form>
     </div>
 </main>

@@ -12,6 +12,8 @@
 
             <input th:replace="~{admin/fragments/inputField :: inputField ('Количество погибших людей(среднее за последние пять лет)', 'deathToll', 'number')}" />
             
+            <select th:replace="~{admin/fragments/selectField :: selectField ('Выберите вид МСЛ', 'typeOfCrowdedPlace', ${typeOfCrowdedPlaceValues})}" />
+            
             <th:block th:if="*{protectiveMeasure != null}">
                 <input th:replace="~{admin/fragments/inputField :: inputField ('Стоимость защитного мероприятия', 'protectiveMeasureCost', 'number')}" />
             </th:block>

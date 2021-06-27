@@ -6,11 +6,12 @@
         <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
         <link rel="shortcut icon" type="image/x-icon" th:href="@{/resources/image/favicon.png}">
         
-<!--        <link th:href="@{/resources/css/footer.css}" rel="stylesheet">
-        <link th:href="@{/resources/css/main.css}" rel="stylesheet">-->
+        <!--<link th:href="@{/resources/css/footer.css}" rel="stylesheet">-->
         <link th:href="@{/webjars/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/5.11.2/css/all.css}" th:rel="stylesheet"/>
 
+        <link th:href="@{/resources/css/admin/main.css}" rel="stylesheet">
+        
         <th:block th:insert="~{admin/fragments/css :: css}"></th:block>
         
         <title th:text="${pageTitle}"></title>
@@ -19,6 +20,8 @@
 <body>        
     <header th:replace="~{admin/fragments/header :: header(${page})}" />
     
+
+    <div th:replace="~{admin/fragments/_breadcrumbs :: _breadcrumbs(${breadcrumbs})}"></div>
     <main th:replace="${template}" />   
 
     <footer th:replace="~{admin/fragments/footer :: footer}" />

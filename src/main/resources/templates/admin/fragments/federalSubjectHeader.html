@@ -1,0 +1,20 @@
+<th:block th:fragment="federalSubjectHeader(page, federalSubjectId)">
+    <div class="row">
+  
+            <!--Шаблон для federalSubjectHeader nav item-->
+            <div th:remove="all">
+                <li th:fragment="navItem (path,active,title,page)" th:class="'nav-item ' + ${active==page ? 'current' : ''}" >
+                  <a th:class="'nav-link ' + ${active==page ? 'active' : ''}" th:href="@{${path}}" th:text="${title}"></a>
+                </li>
+            </div>
+            
+            <div class="col">
+                <ul class="nav tabs">
+                    <li th:replace="::navItem (@{'/admin/federal-subjects/' + ${federalSubjectId}},'updateFederalSubjectAdmin','Основная информация', ${page})"/>
+                    
+                    <li th:replace="::navItem (@{'/admin/federal-subjects/' + ${federalSubjectId}} + '/forecast','updateFederalSubjectForecastAdmin','Прогноз рисков субъекта', ${page})"/>
+                </ul>
+
+            </div>
+        </div>
+</th:block>

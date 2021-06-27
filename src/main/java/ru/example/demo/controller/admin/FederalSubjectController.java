@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.example.demo.domain.FederalSubject;
+import ru.example.demo.domain.FederalSubjectForecast;
 import ru.example.demo.domain.Municipality;
 import ru.example.demo.domain.enumeration.FederalSubjectType;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.FederalSubjectService;
@@ -50,7 +53,8 @@ public class FederalSubjectController {
     
     
     @GetMapping
-    public String getFederalSubjectsPage(){
+    public String getFederalSubjectsPage(Model model){
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECTS));
         return ADMIN_FEDERAL_SUBJECT_PATH + "/listFederalSubjects";
     }
     
@@ -61,19 +65,64 @@ public class FederalSubjectController {
         return federalSubjectService.findAllPagingRequest(pagingRequest);
     } 
     
-    @PostMapping("/new")
-    public @ResponseBody String newFederalSubject(Model model){
-        FederalSubject newFederalSubject = new FederalSubject();
+    @GetMapping("/new")
+    public String federalSubjectCreatePage(Model model){
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECT_CREATE));
         
-        FederalSubject savedFederalSubject = federalSubjectService.save(newFederalSubject);
+        List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
+                                    .filter((Municipality municipality) -> {
+                                        if(municipality.getFederalSubject()!= null){
+                                            return false;
+                                        }
+                                        return true;
+                                    })
+                                    .collect((Collectors.toList()));
+        
+        model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
+        model.addAttribute("availableMunicipalities", availableMunicipalities);
+        model.addAttribute("federalSubject", new FederalSubject());
+        
+        return ADMIN_FEDERAL_SUBJECT_PATH + "/createFederalSubject";
+    }
+    
+    @PostMapping("/new") 
+    public String createFederalSubject(Model model, @Valid FederalSubject federalSubject, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECT_CREATE));
+        
+            List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
+                                        .filter((Municipality municipality) -> {
+                                            if(municipality.getFederalSubject()!= null){
+                                                return false;
+                                            }
+                                            return true;
+                                        })
+                                        .collect((Collectors.toList()));
 
-        return savedFederalSubject.getId().toString();
+            model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
+            model.addAttribute("availableMunicipalities", availableMunicipalities);
+            model.addAttribute("federalSubject", federalSubject);
+
+            return ADMIN_FEDERAL_SUBJECT_PATH + "/createFederalSubject";
+        } else {            
+            FederalSubjectForecast federalSubjectForecast = new FederalSubjectForecast();
+
+            federalSubject.setFederalSubjectForecast(federalSubjectForecast);
+            federalSubjectForecast.setFederalSubject(federalSubject);
+
+            FederalSubject savedFederalSubject = federalSubjectService.save(federalSubject);
+
+            return "redirect:/admin/federal-subjects/" + savedFederalSubject.getId().toString();
+        }
     }
     
     @GetMapping("{id}") 
     public String getFederalSubjectById(@PathVariable Long id, Model model) {
         FederalSubject federalSubject = federalSubjectService.findById(id);
-     
+        
+        long [] ids = new long[]{id};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.FEDERAL_SUBJECT, ids));
+        
         List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
                                     .filter((Municipality municipality) -> {
                                         if(municipality.getFederalSubject()!= null){
@@ -93,13 +142,30 @@ public class FederalSubjectController {
     }
     
     @PostMapping("{id}")
-    public String updateFederalSubjectById(@PathVariable Long id, @Valid FederalSubject federalSubject, BindingResult result) {
+    public String updateFederalSubjectById(Model model, @PathVariable Long id, @Valid FederalSubject federalSubject, BindingResult result) {
         if (result.hasErrors()) {
+            
+            long [] ids = new long[]{id};
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.FEDERAL_SUBJECT, ids));
+
+            List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
+                                        .filter((Municipality municipality) -> {
+                                            if(municipality.getFederalSubject()!= null){
+                                                if(!municipality.getFederalSubject().getId().equals(id)){
+                                                    return false;
+                                                }
+                                            }
+                                            return true;
+                                        })
+                                        .collect((Collectors.toList()));
+
+            model.addAttribute("federalSubject", federalSubject);
+            model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
+            model.addAttribute("availableMunicipalities", availableMunicipalities);
             
             return ADMIN_FEDERAL_SUBJECT_PATH + "/updateFederalSubject";
         } else {
             federalSubject.setId(id);
-            System.out.println(federalSubject.getFederalDistrict());
             List<Municipality> municipalitiesOfSubject = municipalityService.findAllByFederalSubjectId(id);
             
             for (Municipality municipality : federalSubject.getMunicipalities()) {

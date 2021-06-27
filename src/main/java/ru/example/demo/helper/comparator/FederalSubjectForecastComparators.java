@@ -27,8 +27,8 @@ public final class FederalSubjectForecastComparators {
     
 
     static {
-        map.put(new Key("id", Direction.asc), Comparator.comparing(FederalSubjectForecast::getYear));
-        map.put(new Key("id", Direction.desc), Comparator.comparing(FederalSubjectForecast::getYear)
+        map.put(new Key("id", Direction.asc), Comparator.comparing(FederalSubjectForecast::getId));
+        map.put(new Key("id", Direction.desc), Comparator.comparing(FederalSubjectForecast::getId)
                                                            .reversed());
 
     }

@@ -31,12 +31,29 @@ public class FederalSubjectForecast implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Year year;
+    private Float populationDynamicsCoefficient;
     
-    private Integer projectedPopulation = 0;
+    private Integer projectedPopulation;
     
-    @ManyToOne
-    @JoinColumn(name = "federal_subject_id")
+    private Integer populationInFirstYear;
+    
+    private Integer populationInSecondYear;
+    
+    private Integer populationInThirdYear;
+    
+    private Integer populationInFourthYear;
+    
+    private Integer populationInFifthYear;
+    
+    private Double riskOfDeathFederalSubject;
+    
+    private Double acceptableRiskOfDeathFederalSubject;
+    
+    private Double costOfAdditionalProtectiveMeasures;
+    
+    private Double riskOfDeathWithTakenMeasuresFederalSubject;
+    
+    @OneToOne()
     private FederalSubject federalSubject;
     
     @Override
@@ -52,7 +69,7 @@ public class FederalSubjectForecast implements Serializable{
     
     @Override
     public int hashCode() {
-        return Objects.hash(year, id);
+        return Objects.hash(id);
     }
     
 }

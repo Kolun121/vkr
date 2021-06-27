@@ -28,13 +28,14 @@ import ru.example.demo.domain.enumeration.PlaceType;
 @Getter
 @Setter
 @Entity
-@Table(name = "planned_protective_measures")
-public class PlannedProtectiveMeasure  implements Serializable{
+@Table(name = "applied_protective_measures")
+public class AppliedProtectiveMeasure  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private Integer amountOfMeasures = 0;
+    private Double efficencyCoefficent = 0.0;
+    private Integer protectivemeasureCost = 0;
     
     @ManyToOne
     private ProtectiveMeasure protectiveMeasure;
@@ -47,16 +48,16 @@ public class PlannedProtectiveMeasure  implements Serializable{
     public boolean equals(Object o) {
 
         if (o == this) return true;
-        if (!(o instanceof PlannedProtectiveMeasure)) {
+        if (!(o instanceof AppliedProtectiveMeasure)) {
             return false;
         }
-        PlannedProtectiveMeasure object = (PlannedProtectiveMeasure) o;
+        AppliedProtectiveMeasure object = (AppliedProtectiveMeasure) o;
         return Objects.equals(id, object.id);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(amountOfMeasures, id);
+        return Objects.hash(efficencyCoefficent, id);
     }
     
 }

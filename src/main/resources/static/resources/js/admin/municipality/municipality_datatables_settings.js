@@ -20,11 +20,5 @@ var columns = [
 ];
 
 $('#create').on( 'click', function () {
-    $.ajax({
-        url: document.URL + '/new',
-        type: "POST",
-        success: function(result){
-            t.ajax.reload();
-        }
-    });  
+    window.location.href = document.URL + '/new';
 });

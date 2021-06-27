@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,16 +31,23 @@ public class Municipality implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title = "Не указано";
+    @NotEmpty(message = "Значение должно быть заполнено")
+    private String title;
     
-    private Integer currentPopulation = 0;
+    @Min(value = 1, message = "Значение должно быть больше нуля")
+    @NotNull(message = "Значение должно быть заполнено")
+    private Integer currentPopulation;
+    
+    @Min(value = 1, message = "Значение должно быть больше нуля")
+    @NotNull(message = "Значение должно быть заполнено")
+    private Double averageHumanLifeCost;
     
     @OneToOne
     private MunicipalityType municipalityType;
     
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipality")
-    private List<MunicipalityForecast> municipalityForecasts = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    private MunicipalityForecast municipalityForecast;
     
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "municipality")

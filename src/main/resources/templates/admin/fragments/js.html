@@ -14,9 +14,9 @@
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
-        <th:block th:case="createMunicipalityForecastAdmin">
-            <!--Создание прогноза для муниципалитета-->
-            
+        <th:block th:case="createOrUpdateMunicipalityForecastAdmin">
+            <!--Создание или обновление прогноза для муниципалитета-->
+            <script th:src="@{/resources/js/admin/municipality_forecast/create_municipality_forecast.js}"></script>
         </th:block>
         
         <th:block th:case="listProtectiveMeasuresAdmin">
@@ -64,6 +64,12 @@
         <th:block th:case="updateFederalSubjectAdmin">
             <!--Субъекты РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+            <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_subject/federal_subject_duallistbox.js}"></script>
+        </th:block>
+        
+        <th:block th:case="createFederalSubjectAdmin">
+            <!-- Создание Субъекта РФ-->
             <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
             <script th:src="@{/resources/js/admin/federal_subject/federal_subject_duallistbox.js}"></script>
         </th:block>

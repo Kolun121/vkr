@@ -23,6 +23,8 @@ import ru.example.demo.domain.ProtectiveMeasure;
 import ru.example.demo.domain.SmallVesselOperationPlace;
 import ru.example.demo.domain.WaterBody;
 import ru.example.demo.domain.enumeration.PlaceType;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.ProtectiveMeasureService;
@@ -52,6 +54,10 @@ public class SmallVesselOperationPlaceController {
 
     @GetMapping("{municipalityId}/water-bodies/{waterBodyId}/vessel-operation-places")
     public String listWaterBodySmallVesselOperationPlaces(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, Model model){
+        
+        long [] ids = new long[]{municipalityId, waterBodyId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.WATER_BODY_SMALL_VESSELS, ids));
+        
         model.addAttribute("municipalityId", municipalityId);
         model.addAttribute("waterBodyId", waterBodyId);
         return ADMIN_VESSEL_PLACE_PATH + "/listWaterBodyVesselOperaionPlaces";
@@ -78,9 +84,12 @@ public class SmallVesselOperationPlaceController {
     }
     
     @GetMapping("{municipalityId}/water-bodies/{waterBodyId}/vessel-operation-places/{vesselOperationPlaceId}")
-    public String getVesselOperationPlaceById(@PathVariable Long vesselOperationPlaceId, Model model) {
+    public String getVesselOperationPlaceById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long vesselOperationPlaceId, Model model) {
         SmallVesselOperationPlace smallVesselOperationPlace = smallVesselOperationPlaceService.findById(vesselOperationPlaceId);
                
+        long [] ids = new long[]{municipalityId, waterBodyId, vesselOperationPlaceId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.SMALL_VESSEL, ids));
+        
         List<ProtectiveMeasure> vesselOperationPlaceProtectiveMeasures = protectiveMeasureService.findAll()
                 .stream()
                 .filter((ProtectiveMeasure protectiveMeasure) -> {

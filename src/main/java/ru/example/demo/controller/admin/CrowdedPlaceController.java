@@ -21,6 +21,9 @@ import ru.example.demo.domain.CrowdedPlace;
 import ru.example.demo.domain.ProtectiveMeasure;
 import ru.example.demo.domain.WaterBody;
 import ru.example.demo.domain.enumeration.PlaceType;
+import ru.example.demo.domain.enumeration.TypeOfCrowdedPlace;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.CrowdedPlaceService;
@@ -50,6 +53,9 @@ public class CrowdedPlaceController {
     
     @GetMapping("{municipalityId}/water-bodies/{waterBodyId}/crowded-places")
     public String listWaterBodyCrowdedPlaces(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, Model model){
+        long [] ids = new long[]{municipalityId, waterBodyId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.WATER_BODY_CROWDED_PLACES, ids));
+        
         model.addAttribute("municipalityId", municipalityId);
         model.addAttribute("waterBodyId", waterBodyId);
         return ADMIN_CROWDED_PLACE_PATH + "/listWaterBodyCrowdedPlaces";
@@ -76,7 +82,10 @@ public class CrowdedPlaceController {
     }
     
     @GetMapping("{municipalityId}/water-bodies/{waterBodyId}/crowded-places/{crowdedPlaceId}")
-    public String getCrowdedPlaceById(@PathVariable Long crowdedPlaceId, Model model) {
+    public String getCrowdedPlaceById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long crowdedPlaceId, Model model) {
+        long [] ids = new long[]{municipalityId, waterBodyId, crowdedPlaceId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.CROWDED_PLACE, ids));
+        
         CrowdedPlace crowdedPlace = crowdedPlaceService.findById(crowdedPlaceId);
         
         List<ProtectiveMeasure> crowdedPlaceProtectiveMeasures = protectiveMeasureService.findAll()
@@ -91,6 +100,8 @@ public class CrowdedPlaceController {
                 })
                 .collect((Collectors.toList()));
                 
+        
+        model.addAttribute("typeOfCrowdedPlaceValues", TypeOfCrowdedPlace.values());
         model.addAttribute("crowdedPlace", crowdedPlace);
         model.addAttribute("crowdedPlaceProtectiveMeasures", crowdedPlaceProtectiveMeasures);
         

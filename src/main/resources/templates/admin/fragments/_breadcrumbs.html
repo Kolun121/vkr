@@ -1,0 +1,11 @@
+<th:block th:fragment="_breadcrumbs (items)">
+    <div id="crumbs" class="container mt-2">
+        <ul>
+            <li th:each="item : ${items}">
+                <a th:href="${item.url}">
+                    <i th:class="${'fa ' + item.icon}" aria-hidden="true"> [[${item.name}]]</i>
+                </a>
+            </li>
+        </ul>
+     </div>
+</th:block>

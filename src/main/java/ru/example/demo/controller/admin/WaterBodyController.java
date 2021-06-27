@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.example.demo.domain.Municipality;
 
 import ru.example.demo.domain.WaterBody;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.Breadcrumb;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.MunicipalityService;
@@ -46,6 +49,9 @@ public class WaterBodyController {
 
     @GetMapping("{municipalityId}/water-bodies")
     public String listMunicipalityWaterBodies(@PathVariable Long municipalityId, Model model){
+        long [] ids = new long[]{municipalityId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.MUNICIPALITY_WATER_BODIES, ids));
+        
         model.addAttribute("municipalityId", municipalityId);
         return ADMIN_WATER_BODY_PATH + "/listMunicipalityWaterBodies";
     }
@@ -67,11 +73,14 @@ public class WaterBodyController {
         
         WaterBody savedWaterBody = waterBodyService.save(newWaterBody);
 
-        return newWaterBody.getId().toString();
+        return savedWaterBody.getId().toString();
     }
     
     @GetMapping("{municipalityId}/water-bodies/{waterBodyId}")
-    public String getWaterBodyById(@PathVariable Long waterBodyId, Model model) {
+    public String getWaterBodyById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, Model model) {
+        long [] ids = new long[]{municipalityId, waterBodyId};
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.WATER_BODY, ids));
+        
         WaterBody waterBody = waterBodyService.findById(waterBodyId);
                
         model.addAttribute("waterBody", waterBody);
@@ -80,13 +89,15 @@ public class WaterBodyController {
     }
     
     @PostMapping("{municipalityId}/water-bodies/{waterBodyId}")
-    public String updateWaterBodyById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, @Valid WaterBody waterBody, BindingResult result) {
+    public String updateWaterBodyById(Model model, @PathVariable Long municipalityId, @PathVariable Long waterBodyId, @Valid WaterBody waterBody, BindingResult result) {
         if (result.hasErrors()) {
-            
+            long [] ids = new long[]{municipalityId, waterBodyId};
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.WATER_BODY, ids));
+        
             return ADMIN_WATER_BODY_PATH + "/updateWaterBody";
         } else {
             waterBody.setId(waterBodyId);
-            
+            waterBody.setMunicipality(municipalityService.findById(municipalityId));
              
             waterBodyService.save(waterBody);
             return "redirect:/admin/municipalities/" + municipalityId + "/water-bodies/" + waterBodyId;
