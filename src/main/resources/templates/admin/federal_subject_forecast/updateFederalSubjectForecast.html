@@ -1,6 +1,6 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/fragments/layout :: layout (~{::main}, 'updateFederalSubjectForecastAdmin', 'Создание прогноза')}">
 <main class="container">
-    <div th:replace="~{admin/fragments/federalSubjectHeader :: federalSubjectHeader(${page}, ${federalSubject.id})}" ></div>
+    <div th:replace="~{admin/fragments/federalSubjectHeader :: federalSubjectHeader(${page}, ${federalSubjectId})}" ></div>
     
     <div class="container">
         <div class="row">
@@ -8,37 +8,75 @@
                 <h2 class="mt-5">Создание прогноза рисков для субъекта</h2>
 
                 <form th:action="@{''}" method="post" th:object="${populationInAnalyzedPeriod}">
-    <!--                <input type="hidden" th:field="*{id}" />
-                    <input type="hidden" th:field="*{municipality}" />-->            
-                <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета в первый год анализируемого периода', 'populationInFirstYear', 'number')}" />
-                <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета во второй год анализируемого периода', 'populationInSecondYear', 'number')}" />
-                <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета в третий год анализируемого периода', 'populationInThirdYear', 'number')}" />
-                <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета в четвертый год анализируемого периода', 'populationInFourthYear', 'number')}" />
-
-                <div th:class="${'form-group row'}">
-                   <div class="col-sm-12 col-md-6">
-                       <label class="control-label" th:text="${'Население субъекта (на момент прогноза)'}" th:for="*{populationInFifthYear}">Label</label>
-                       <div class="input-group has-error">
-                            <input th:class="${'form-control'}" type="number" th:field="*{populationInFifthYear}" readonly/>
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                    <div th:class="${'form-group row'}">
+                        <div class="col-sm-12 col-md-6">
+                            <label class="control-label" th:text="${'Население субъекта в первый год анализируемого периода'}" th:for="*{populationInFifthYear}">Label</label>
+                            <div class="input-group has-error">
+                                 <input th:class="${'form-control'}" type="number" th:field="*{populationInFirstYear}" readonly/>
+                                 <div class="input-group-append">
+                                     <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                                 </div>
                             </div>
+                        </div>
+                    </div>
+                 <div th:class="${'form-group row'}">
+                    <div class="col-sm-12 col-md-6">
+                        <label class="control-label" th:text="${'Население субъекта во второй год анализируемого периода'}" th:for="*{populationInFifthYear}">Label</label>
+                        <div class="input-group has-error">
+                             <input th:class="${'form-control'}" type="number" th:field="*{populationInSecondYear}" readonly/>
+                             <div class="input-group-append">
+                                 <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+                 <div th:class="${'form-group row'}">
+                    <div class="col-sm-12 col-md-6">
+                        <label class="control-label" th:text="${'Население субъекта в третий год анализируемого периода'}" th:for="*{populationInFifthYear}">Label</label>
+                            <div class="input-group has-error">
+                                 <input th:class="${'form-control'}" type="number" th:field="*{populationInThirdYear}" readonly/>
+                                 <div class="input-group-append">
+                                     <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:class="${'form-group row'}">
+                       <div class="col-sm-12 col-md-6">
+                           <label class="control-label" th:text="${'Население субъекта в четвертый год анализируемого периода'}" th:for="*{populationInFifthYear}">Label</label>
+                           <div class="input-group has-error">
+                                <input th:class="${'form-control'}" type="number" th:field="*{populationInFourthYear}" readonly/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                                </div>
+                           </div>
                        </div>
                    </div>
-               </div>
+
+                    <div th:class="${'form-group row'}">
+                       <div class="col-sm-12 col-md-6">
+                           <label class="control-label" th:text="${'Население субъекта (на момент прогноза)'}" th:for="*{populationInFifthYear}">Label</label>
+                           <div class="input-group has-error">
+                                <input th:class="${'form-control'}" type="number" th:field="*{populationInFifthYear}" readonly/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                                </div>
+                           </div>
+                       </div>
+                   </div>
 
                 <button class="btn btn-primary" type="submit" th:text="'Создать'"></button>
                 </form>
 
             </div>
             
-<!--            <div class="col-lg-12">
-                <h2 class="mt-5">Рассчитанные данные для муницпалитета</h2>
-                <th:block th:unless="${municipalityForecast.populationDynamicsCoefficient}">
+            <div class="col-lg-12">
+                <h2 class="mt-5">Рассчитанные данные для субъекта</h2>
+                <th:block th:unless="${federalSubjectForecast.populationDynamicsCoefficient}">
                     <h4 class="mt-5">Рассчеты не произведены</h4>
                 </th:block>
 
-                <th:block th:if="${municipalityForecast.populationDynamicsCoefficient}">
+                <th:block th:if="${federalSubjectForecast.populationDynamicsCoefficient}">
                     <div class="wrapper">
                         <div class="table">
 
@@ -53,10 +91,10 @@
                             
                           <div class="row">
                                 <div class="cell">
-                                  Коэффициент динамики численности населения<br>в муниципальном образовании за последние 5 лет
+                                  Коэффициент динамики численности населения<br>в субъекте за последние 5 лет
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.populationDynamicsCoefficient,1,4)}]]
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.populationDynamicsCoefficient,1,4)}]]
                                 </div>
                           </div>
 
@@ -65,67 +103,65 @@
                                   Прогнозное значение численности населения
                                 </div>
                                 <div class="cell">
-                                  [[${municipalityForecast.projectedPopulation}]] чел.
+                                  [[${federalSubjectForecast.projectedPopulation}]] чел.
                                 </div>
                           </div>
 
                           <div class="row">
                                 <div class="cell">
-                                  <td>Вероятность гибели людей<br>на водных объектах в местах МСЛ<br>для муниципального образования
+                                  Риск гибели людей<br>на водных объектах в субъекте
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.probabilityOfDeathMSLMunicipality,1,10)}]]
-                                </div>
-                          </div>
-
-                          <div class="row">
-                                <div class="cell">
-                                  Риск гибели людей<br>на водных объектах в местах МСЛ<br>для муниципального образования
-                                </div>
-                                <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.riskOfDeathMSLMunicipality,1,2)}]] руб.
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.riskOfDeathFederalSubject,1,2)}]] руб.
                                 </div>
                           </div>
-                          <div class="row">
+                           <div class="row">
                                 <div class="cell">
-                                  Вероятность гибели людей<br>на водных объектах<br>муниципального образования при эксплуатации ММС
+                                  Допустимый риск гибели людей<br>на водных объектах в субъекте
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.probabilityOfDeathMMSMunicipality,1,10)}]]
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.acceptableRiskOfDeathFederalSubject,1,2)}]] руб.
                                 </div>
                           </div>
                           <div class="row">
                                 <div class="cell">
-                                  Риск гибели людей<br>на водных объектах<br>муниципального образования при эксплуатации ММС
+                                  Стоимость защитных (дополнительных) мероприятий на территории субъекта
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.riskOfDeathMMSMunicipality,1,2)}]] руб.
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.costOfAdditionalProtectiveMeasures,1,2)}]] руб.
+                                </div>
+                          </div>
+                                
+                           <div class="row">
+                                <div class="cell">
+                                  Риск гибели людей<br>на водных объектах в субъекте с учетом проведенных мероприятий
+                                </div>
+                                <div class="cell">
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.riskOfDeathWithTakenMeasuresFederalSubject,1,2)}]] руб.
                                 </div>
                           </div>
                                 
                             <div class="row">
                                 <div class="cell">
-                                  Вероятность гибели людей<br>на водных объектах<br>муниципального образования
+                                    Эффективность защитных мероприятий
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.probabilityOfDeathMunicipality,1,10)}]]
+                                    [[${#numbers.formatDecimal(federalSubjectForecast.effectivenessOfTakenMeasures,1,4)}]]
                                 </div>
                             </div>
-                                
                             <div class="row">
                                 <div class="cell">
-                                    Риск гибели людей<br>на водных объектах<br>муниципального образования
+                                    Величина риска гибели людей на водных объектах субъекта
                                 </div>
                                 <div class="cell">
-                                    [[${#numbers.formatDecimal(municipalityForecast.riskOfDeathMunicipality,1,2)}]] руб.
+                                    [[${federalSubjectForecast.riskCriteria.getStringValue()}]]
                                 </div>
                             </div>
-
                         </div>
 
                       </div>
                 </th:block>
-            </div>-->
+            </div>
         </div>
        
     </div>

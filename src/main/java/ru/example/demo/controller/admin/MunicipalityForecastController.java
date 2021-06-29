@@ -312,7 +312,7 @@ public class MunicipalityForecastController {
             municipalityForecast.setProbabilityOfDeathMunicipality(probabilityOfDeathMunicipality);
             
             //Общий риск смерти для муниципалитета
-            double riskOfDeathMunicipality = riskOfDeathDeathMunicipalityMMS + riskOfDeathDeathMunicipalityMMS;
+            double riskOfDeathMunicipality = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeathDeathMunicipalityMSL);
             municipalityForecast.setRiskOfDeathMunicipality(riskOfDeathMunicipality);
            
             //КОНЕЦ РАСЧЕТОВ

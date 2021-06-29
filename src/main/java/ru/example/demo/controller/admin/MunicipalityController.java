@@ -65,6 +65,7 @@ public class MunicipalityController {
     public String getMunicipalityById(@PathVariable Long id, Model model) {
         Municipality municipality = municipalityService.findById(id);
         
+        System.out.println(municipality.getMunicipalityForecast().getPopulationInFirstYear());
         long [] ids = new long[]{id};
         model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.MUNICIPALITY, ids));
         

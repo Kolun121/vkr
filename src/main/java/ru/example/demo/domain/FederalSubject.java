@@ -17,6 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,14 +40,19 @@ public class FederalSubject implements Serializable{
     
     @NotEmpty(message = "Значение должно быть заполнено")
     private String title;
-        
+    
+    private String mapIdValue;
+    
+    
     @Min(value = 1, message = "Значение должно быть больше нуля")
     @NotNull(message = "Значение должно быть заполнено")
     private Integer averageHumanLifeCost = 0;
     
-    @Min(value = 1, message = "Значение должно быть больше нуля")
+    @DecimalMin(value = "0.0", message = "Значение должно быть больше нуля")
+    @DecimalMax(value = "1.0", message = "Значение не должно быть больше одного")
     @NotNull(message = "Значение должно быть заполнено")
-    private Integer acceptableProbabilityOfDeath = 0;
+    @Digits(integer=3, fraction=20, message = "Значение не должно содержать более 20 символов после запятой")
+    private Double acceptableProbabilityOfDeath = 0d;
     
     @NotNull(message = "Значение должно быть заполнено")
     private Integer currentPopulation = 0;

@@ -18,6 +18,13 @@
                             <span class="input-group-text"><i class="fas fa-edit"></i></span>
                         </div>
                     </th:block>
+                    
+                    <th:block th:case="'number_decimal'">
+                        <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" step="any" min="0" max="1" type="number" th:field="*{__${name}__}" />
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-edit"></i></span>
+                        </div>
+                    </th:block>
 
                     <th:block th:case="'date'">
                         <input th:class="${'form-control ' + (valid ? '' : 'is-invalid')}" type="date" th:field="*{__${name}__}"/>

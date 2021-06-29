@@ -9,7 +9,7 @@
             <input th:replace="~{admin/fragments/inputField :: inputField ('Название', 'title', 'text')}" />
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Средняя стоимость жизни для субъекта (в рублях)', 'averageHumanLifeCost', 'number')}" />
-            <input th:replace="~{admin/fragments/inputField :: inputField ('Допустимый риск гибели людей для субъекта (в рублях)', 'acceptableProbabilityOfDeath', 'number')}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Допустимая вероятность гибели людей для субъекта', 'acceptableProbabilityOfDeath', 'number_decimal')}" />
             
             <select th:replace="~{admin/fragments/selectField :: selectField ('Выберите вид субъекта', 'federalSubjectType', ${federalSubjectTypeValues})}" />
             

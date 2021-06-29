@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import ru.example.demo.domain.enumeration.RiskCriteria;
 
 
 @Getter
@@ -35,15 +38,15 @@ public class FederalSubjectForecast implements Serializable{
     
     private Integer projectedPopulation;
     
-    private Integer populationInFirstYear;
+    private Integer populationInFirstYear = 0;
     
-    private Integer populationInSecondYear;
+    private Integer populationInSecondYear = 0;
     
-    private Integer populationInThirdYear;
+    private Integer populationInThirdYear = 0;
     
-    private Integer populationInFourthYear;
+    private Integer populationInFourthYear = 0;
     
-    private Integer populationInFifthYear;
+    private Integer populationInFifthYear = 0;
     
     private Double riskOfDeathFederalSubject;
     
@@ -52,6 +55,11 @@ public class FederalSubjectForecast implements Serializable{
     private Double costOfAdditionalProtectiveMeasures;
     
     private Double riskOfDeathWithTakenMeasuresFederalSubject;
+    
+    private Double effectivenessOfTakenMeasures;
+    
+    @Enumerated(value = EnumType.STRING)
+    private RiskCriteria riskCriteria;
     
     @OneToOne()
     private FederalSubject federalSubject;

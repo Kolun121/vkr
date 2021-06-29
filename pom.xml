@@ -96,7 +96,6 @@
                     <artifactId>bootstrap4-duallistbox</artifactId>
                     <version>4.0.2</version>
                 </dependency>
-      
 	</dependencies>
 
 	<build>

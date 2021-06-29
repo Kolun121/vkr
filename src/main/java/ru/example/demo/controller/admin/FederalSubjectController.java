@@ -1,11 +1,13 @@
 package ru.example.demo.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.example.demo.domain.FederalSubject;
 import ru.example.demo.domain.FederalSubjectForecast;
 import ru.example.demo.domain.Municipality;
+import ru.example.demo.domain.MunicipalityForecast;
 import ru.example.demo.domain.enumeration.FederalSubjectType;
 import ru.example.demo.helper.BreadcrumbsListFactory;
 import ru.example.demo.helper.objects.BreadcrumbsKind;
@@ -58,9 +61,9 @@ public class FederalSubjectController {
     @PostMapping
     @ResponseBody
     public Page<FederalSubject> listFederalSubjectsAjax(@RequestBody PagingRequest pagingRequest) {
-
-        return federalSubjectService.findAllPagingRequest(pagingRequest);
-    } 
+        Page<FederalSubject> temp = federalSubjectService.findAllPagingRequest(pagingRequest);
+        return temp;
+    }
     
     @GetMapping("/new")
     public String federalSubjectCreatePage(Model model){
@@ -74,7 +77,7 @@ public class FederalSubjectController {
                     return true;
                 })
                 .collect((Collectors.toList()));
-        
+            
         model.addAttribute("federalSubjectTypeValues", FederalSubjectType.values());
         model.addAttribute("availableMunicipalities", availableMunicipalities);
         model.addAttribute("federalSubject", new FederalSubject());
@@ -86,7 +89,7 @@ public class FederalSubjectController {
     public String createFederalSubject(Model model, @Valid FederalSubject federalSubject, BindingResult result) {
         if (result.hasErrors()) {
             model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.FEDERAL_SUBJECT_CREATE));
-        
+
             List<Municipality> availableMunicipalities = municipalityService.findAll().stream()
                 .filter((Municipality municipality) -> {
                     if(municipality.getFederalSubject()!= null){
@@ -107,6 +110,20 @@ public class FederalSubjectController {
             federalSubject.setFederalSubjectForecast(federalSubjectForecast);
             federalSubjectForecast.setFederalSubject(federalSubject);
 
+            for (Municipality chosenMunicipality : federalSubject.getMunicipalities()) {
+                //Проводим расчеты для текущей численности населения субъекта
+                int tempPopulation = federalSubject.getCurrentPopulation();
+                int municipalityPopulation = chosenMunicipality.getCurrentPopulation();
+                federalSubject.setCurrentPopulation(tempPopulation + municipalityPopulation);
+                
+                chosenMunicipality.setFederalSubject(federalSubject);
+            }
+            
+            //Заполнение информации о населении в 1, 2, 3, 4, 5 год анализируемого периода
+            List<MunicipalityForecast> municipalityForecasts = new ArrayList<>();
+            federalSubject.getMunicipalities().forEach(m -> municipalityForecasts.add(m.getMunicipalityForecast()));
+            calculateForecastPopulation(federalSubjectForecast, municipalityForecasts);
+            
             FederalSubject savedFederalSubject = federalSubjectService.save(federalSubject);
 
             return "redirect:/admin/federal-subjects/" + savedFederalSubject.getId().toString();
@@ -198,12 +215,10 @@ public class FederalSubjectController {
                 chosenMunicipality.setFederalSubject(federalSubject);
             }
             
-//            if(!municipalitiesOfSubject.isEmpty()){
-//                for (Municipality municipality : municipalitiesOfSubject) {
-//                    municipality.setFederalSubject(null);
-//                }
-//                municipalityService.saveAll(municipalitiesOfSubject);
-//            }
+            //Заполнение информации о населении в 1, 2, 3, 4, 5 год анализируемого периода
+            List<MunicipalityForecast> municipalityForecasts = new ArrayList<>();
+            federalSubject.getMunicipalities().forEach(m -> municipalityForecasts.add(m.getMunicipalityForecast()));
+            calculateForecastPopulation(federalSubjectForecast, municipalityForecasts);
              
             municipalityService.saveAll(municipalitiesOfSubject);
             federalSubjectService.save(federalSubject);
@@ -215,5 +230,34 @@ public class FederalSubjectController {
     @ResponseBody
     public void deleteFederalSubject(@RequestBody List<FederalSubject> listFederalDistricts){
         federalSubjectService.deleteAll(listFederalDistricts);
+    }
+    
+    private void calculateForecastPopulation(FederalSubjectForecast forecast, List<MunicipalityForecast> mForecasts){
+        forecast.setPopulationInFirstYear(0);
+        forecast.setPopulationInSecondYear(0);
+        forecast.setPopulationInThirdYear(0);
+        forecast.setPopulationInFourthYear(0);
+        forecast.setPopulationInFifthYear(0);
+        
+        for (MunicipalityForecast mForecast : mForecasts) {
+            int population1 = (mForecast.getPopulationInFirstYear() != null) ? mForecast.getPopulationInFirstYear() : 0;
+            int population2 = (mForecast.getPopulationInSecondYear() != null) ? mForecast.getPopulationInSecondYear() : 0;
+            int population3 = (mForecast.getPopulationInThirdYear() != null) ? mForecast.getPopulationInThirdYear() : 0;
+            int population4 = (mForecast.getPopulationInFourthYear() != null) ? mForecast.getPopulationInFourthYear() : 0;
+            int population5 = (mForecast.getPopulationInFifthYear() != null) ? mForecast.getPopulationInFifthYear() : 0;
+            
+            int forecastPopulation1 = forecast.getPopulationInFirstYear();
+            int forecastPopulation2 = forecast.getPopulationInSecondYear();
+            int forecastPopulation3 = forecast.getPopulationInThirdYear();
+            int forecastPopulation4 = forecast.getPopulationInFourthYear();
+            int forecastPopulation5 = forecast.getPopulationInFifthYear();
+            
+            forecast.setPopulationInFirstYear(population1 + forecastPopulation1);
+            forecast.setPopulationInSecondYear(population2 + forecastPopulation2);
+            forecast.setPopulationInThirdYear(population3 + forecastPopulation3);
+            forecast.setPopulationInFourthYear(population4 + forecastPopulation4);
+            forecast.setPopulationInFifthYear(population4 + forecastPopulation4);
+            forecast.setPopulationInFifthYear(population5 + forecastPopulation5);
+        }
     }
 }

@@ -1,0 +1,24 @@
+#svg2{
+  width:1080px;
+  height:620px;
+  border: black;
+  border-width: 1px;
+}
+path{transition:all .5s; fill:rgba(0,0,0,0.6);stroke: rgba(0,0,0,0.5);}
+
+.indicator{
+  position:absolute;
+  display:inline;
+  background:rgba(0,0,0,1);
+  color:#f1f1f1;
+  padding:10px 30px;
+  font:20px Arial;
+  border-radius:5px;
+  min-width:300px;
+  
+  text-transform:capitalize;
+  display:none;
+}
+.clear{clear:both}
+.name{float:left;margin-right:30px;}
+.capital{clear:both;}

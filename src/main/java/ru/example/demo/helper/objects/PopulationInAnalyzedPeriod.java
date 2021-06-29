@@ -36,6 +36,9 @@ public class PopulationInAnalyzedPeriod {
         
         float sumOfCoefficents = 0;
         for(int i = 0; i < analyzedPeriodPopulation.length - 1; i++){
+            if(analyzedPeriodPopulation[i] == 0){
+                continue;
+            }
             sumOfCoefficents += (float) analyzedPeriodPopulation[i + 1] / (float) analyzedPeriodPopulation[i];
         }
         

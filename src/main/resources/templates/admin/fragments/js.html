@@ -1,5 +1,10 @@
 <th:block th:fragment="js">
     <th:block th:switch="${page}">
+        <th:block th:case="indexAdmin">
+            <!--Главная-->
+            <script th:src="@{/resources/js/admin/mapinit.js}"></script>
+        </th:block>
+        
         <th:block th:case="listMunicipalitiesAdmin">
             <!--Муниципалитет-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -59,13 +64,17 @@
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/federal_subject/federal_subject_datatables_settings.js}"></script>
             <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
+           
         </th:block>
         
         <th:block th:case="updateFederalSubjectAdmin">
-            <!--Субъекты РФ-->
+            <!--Субъект РФ-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
             <script th:src="@{/resources/js/admin/federal_subject/federal_subject_duallistbox.js}"></script>
+            <script th:src="@{/resources/js/admin/federal_subject/subjectmap.js}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.5.0/dist/svg-pan-zoom.min.js"></script>
+            <script th:src="@{/resources/js/admin/svgzoom.js}"></script>
         </th:block>
         
         <th:block th:case="createFederalSubjectAdmin">

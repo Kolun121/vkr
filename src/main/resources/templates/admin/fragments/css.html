@@ -1,4 +1,9 @@
 <th:block th:fragment="css"><th:block th:switch="${page}">
+    <th:block th:case="indexAdmin">
+        <!--Главная-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/index.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+    </th:block>
     <th:block th:case="listMunicipalitiesAdmin">
         <!--Муниципалитеты-->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
@@ -88,9 +93,16 @@
         <!--Субъекты РФ-->
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>
         <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/svg_map.css}">
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
     </th:block>
         
+    <th:block th:case="updateFederalSubjectForecastAdmin">
+        <!--обновление прогноза для субъекта-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/municipality_forecast.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/admin/tabs.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+    </th:block>
     <th:block th:case="createFederalSubjectAdmin">
         <!-- Создание Субъекта РФ-->
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/bootstrap-duallistbox.min.css}"/>

@@ -19,5 +19,4 @@ public class Page<T> {
     private int recordsFiltered;
     private int recordsTotal;
     private int draw;
-
 }
