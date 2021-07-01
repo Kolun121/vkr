@@ -42,7 +42,8 @@ public class Municipality implements Serializable{
     @NotNull(message = "Значение должно быть заполнено")
     private Double averageHumanLifeCost;
     
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "municipality_type_id")
     private MunicipalityType municipalityType;
     
     @JsonIgnore

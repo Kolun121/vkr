@@ -23,6 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ru.example.demo.domain.ProtectiveMeasure;
 import ru.example.demo.domain.enumeration.PlaceType;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.ProtectiveMeasureService;
@@ -46,7 +48,8 @@ public class ProtectiveMeasureController {
     
     
     @GetMapping
-    public String getProtectiveMeasuresPage(){
+    public String getProtectiveMeasuresPage(Model model){
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.PROTECTIVE_MEASURES));
         return ADMIN_PROTECTIVE_MEASURE_PATH + "/listProtectiveMeasures";
     }
     
@@ -70,6 +73,8 @@ public class ProtectiveMeasureController {
     public String getProtectiveMeasureById(@PathVariable Long id, Model model) {
         ProtectiveMeasure protectiveMeasure = protectiveMeasureService.findById(id);
        
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.PROTECTIVE_MEASURE, new long[]{id}));
+        
         model.addAttribute("protectiveMeasure", protectiveMeasure);
         model.addAttribute("waterBodyTypeValues", PlaceType.values());
         
@@ -77,9 +82,11 @@ public class ProtectiveMeasureController {
     }
     
     @PostMapping("{id}")
-    public String updateProtectiveMeasureById(@PathVariable Long id, @Valid ProtectiveMeasure protectiveMeasure, BindingResult result) {
+    public String updateProtectiveMeasureById(Model model, @PathVariable Long id, @Valid ProtectiveMeasure protectiveMeasure, BindingResult result) {
         if (result.hasErrors()) {
-            
+            model.addAttribute("protectiveMeasure", protectiveMeasure);
+            model.addAttribute("waterBodyTypeValues", PlaceType.values());
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.PROTECTIVE_MEASURE, new long[]{id}));
             return ADMIN_PROTECTIVE_MEASURE_PATH + "/updateProtectiveMeasure";
         } else {
             protectiveMeasure.setId(id);

@@ -3,7 +3,7 @@
       th:replace="~{admin/fragments/layout :: layout (~{::main},'updateCrowdedPlaceAdmin', 'Информация о месте массового скопления людей')}">
     
 <main class="container mb-5" >
-    <div class="container mt-5">
+    <div class="container">
         <h3 class="text-center">Место массового скопления людей</h3>
         <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${crowdedPlace}">
             <input type="hidden" th:field="*{id}" />
@@ -13,10 +13,6 @@
             <input th:replace="~{admin/fragments/inputField :: inputField ('Количество погибших людей(среднее за последние пять лет)', 'deathToll', 'number')}" />
             
             <select th:replace="~{admin/fragments/selectField :: selectField ('Выберите вид МСЛ', 'typeOfCrowdedPlace', ${typeOfCrowdedPlaceValues})}" />
-            
-            <th:block th:if="*{protectiveMeasure != null}">
-                <input th:replace="~{admin/fragments/inputField :: inputField ('Стоимость защитного мероприятия', 'protectiveMeasureCost', 'number')}" />
-            </th:block>
             
             <div class="form-group">
                 <label class="control-label" th:for="*{protectiveMeasure}">Защитная мера</label>
@@ -30,6 +26,8 @@
                     </select>
                 </div>
             </div>
+            
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Стоимость защитного мероприятия', 'protectiveMeasureCost', 'number')}" />
            
             
             <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>

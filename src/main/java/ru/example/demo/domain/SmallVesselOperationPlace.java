@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,10 +30,13 @@ public class SmallVesselOperationPlace implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotEmpty(message = "Значение должно быть заполнено")
     private String title = "Не указано";
     
+    @Min(value = 0, message = "Значение не должно быть отрицательно")
     private Integer protectiveMeasureCost = 0;
     
+    @Min(value = 0, message = "Значение не должно быть отрицательно")
     private Integer deathToll = 0;
    
     @JsonIgnore

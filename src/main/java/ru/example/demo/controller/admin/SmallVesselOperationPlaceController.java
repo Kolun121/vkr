@@ -109,14 +109,35 @@ public class SmallVesselOperationPlaceController {
     }
     
     @PostMapping("{municipalityId}/water-bodies/{waterBodyId}/vessel-operation-places/{vesselOperationPlaceId}")
-    public String updateVesselOperationPlaceById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long vesselOperationPlaceId, @Valid SmallVesselOperationPlace smallVesselOperationPlace, BindingResult result) {
+    public String updateVesselOperationPlaceById(Model model, @PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long vesselOperationPlaceId, @Valid SmallVesselOperationPlace smallVesselOperationPlace, BindingResult result) {
         if (result.hasErrors()) {
             
+            long [] ids = new long[]{municipalityId, waterBodyId, vesselOperationPlaceId};
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.SMALL_VESSEL, ids));
+
+            List<ProtectiveMeasure> vesselOperationPlaceProtectiveMeasures = protectiveMeasureService.findAll()
+                    .stream()
+                    .filter((ProtectiveMeasure protectiveMeasure) -> {
+                        if(protectiveMeasure.getDesignatedFor()!= null){
+                            if(!protectiveMeasure.getDesignatedFor().equals(PlaceType.VESSEL_OPERATION_PLACE)){
+                                return false;
+                            }
+                        }
+                        return true;
+                    })
+                    .collect((Collectors.toList()));
+
+            model.addAttribute("smallVesselOperationPlace", smallVesselOperationPlace);
+            model.addAttribute("vesselOperationPlaceProtectiveMeasures", vesselOperationPlaceProtectiveMeasures);
+        
             return ADMIN_VESSEL_PLACE_PATH + "/updateVesselOperaionPlace";
         } else {
             smallVesselOperationPlace.setId(vesselOperationPlaceId);
             
-             
+            if(smallVesselOperationPlace.getProtectiveMeasure() == null){
+                smallVesselOperationPlace.setProtectiveMeasureCost(0);
+            }
+            
             smallVesselOperationPlaceService.save(smallVesselOperationPlace);
             return "redirect:/admin/municipalities/" + municipalityId + "/water-bodies/" + waterBodyId + "/vessel-operation-places/" + vesselOperationPlaceId;
         }

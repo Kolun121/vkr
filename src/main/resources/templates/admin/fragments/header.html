@@ -1,7 +1,7 @@
 <header th:fragment="header(page)">
     <!--Шаблон для menu item-->
     <div th:remove="all">
-        <li th:fragment="menuItem (path,active,title,page)" th:class="'nav-item ' + ${active==page ? 'active' : ''}">
+        <li th:fragment="menuItem (path,active,title,page)" th:if="${#authorization.url(path)}" th:class="'nav-item ' + ${active==page ? 'active' : ''}">
           <a class="nav-link" th:href="@{${path}}" th:text="${title}"></a>
         </li>
     </div>
@@ -16,11 +16,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive" sec:authorize="isAuthenticated()">
                 <ul class="navbar-nav ml-auto">
-                    <li th:replace="::menuItem ('/admin/federal-districts','listFederalDistrictsAdmin','Федеральные округа', ${page})"/>
+<!--                    <li th:replace="::menuItem ('/admin/federal-districts','listFederalDistrictsAdmin','Федеральные округа', ${page})"/>-->
                     <li th:replace="::menuItem ('/admin/federal-subjects','listFederalSubjectsAdmin','Субъекты РФ', ${page})"/>
                     <li th:replace="::menuItem ('/admin/municipalities','listMunicipalitiesAdmin','Муниципалитеты', ${page})"/>
-<!--                    <li th:replace="::menuItem ('/admin/municipality-types','listMunicipalityTypesAdmin','Виды муниципалитетов', ${page})"/>-->
+                    <li th:replace="::menuItem ('/admin/municipality-types','listMunicipalityTypesAdmin','Виды муниципалитетов', ${page})"/>
                     <li th:replace="::menuItem ('/admin/protective-measures','listProtectiveMeasuresAdmin','Защитные мероприятия', ${page})"/>
+                    <li th:replace="::menuItem ('/admin/users','listUsersAdmin','Пользователи', ${page})"/>
                 </ul>
             </div>
             <form th:action="@{/logout}" method="POST" class="form-inline my-2 my-lg-0" sec:authorize="isAuthenticated()">

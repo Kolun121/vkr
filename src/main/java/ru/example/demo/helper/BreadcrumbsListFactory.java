@@ -8,13 +8,18 @@ import ru.example.demo.helper.objects.BreadcrumbsKind;
 public class BreadcrumbsListFactory {
     private static final List<Breadcrumb> municipalitiesBreadcrumbs = new ArrayList<>();
     private static final List<Breadcrumb> municipalityNewBreadcrumbs = new ArrayList<>();
+    private static final List<Breadcrumb> municipalityTypesBreadcrumbs = new ArrayList<>();
     private static final List<Breadcrumb> federalSubjectsBreadcrumbs = new ArrayList<>();
     private static final List<Breadcrumb> federalSubjectNewBreadcrumbs = new ArrayList<>();
     private static final List<Breadcrumb> protectiveMeasuresBreadcrumbs = new ArrayList<>();
+    private static final List<Breadcrumb> usersBreadcrumbs = new ArrayList<>();
     
     static {
         municipalitiesBreadcrumbs.add(new Breadcrumb("", "/admin", "fa-home"));
         municipalitiesBreadcrumbs.add(new Breadcrumb("Муниципалитеты", "/admin/municipalities", "fa-book"));
+        
+        municipalityTypesBreadcrumbs.add(new Breadcrumb("", "/admin", "fa-home"));
+        municipalityTypesBreadcrumbs.add(new Breadcrumb("Виды муниципалитетов", "/admin/municipality-types", "fa-book"));
         
         federalSubjectsBreadcrumbs.add(new Breadcrumb("", "/admin", "fa-home"));
         federalSubjectsBreadcrumbs.add(new Breadcrumb("Субъекты", "/admin/federal-subjects", "fa-book"));
@@ -29,6 +34,9 @@ public class BreadcrumbsListFactory {
         
         protectiveMeasuresBreadcrumbs.add(new Breadcrumb("", "/admin", "fa-home"));
         protectiveMeasuresBreadcrumbs.add(new Breadcrumb("Защитные меры", "/admin/protective-measures", "fa-book"));
+        
+        usersBreadcrumbs.add(new Breadcrumb("", "/admin", "fa-home"));
+        usersBreadcrumbs.add(new Breadcrumb("Пользователи", "/admin/users", "fa-book"));
     }
     
     
@@ -38,12 +46,18 @@ public class BreadcrumbsListFactory {
                 return municipalitiesBreadcrumbs;
             case MUNICIPALITY_CREATE:
                 return municipalityNewBreadcrumbs;
+            case MUNICIPALITY_TYPES:
+                return municipalityTypesBreadcrumbs;
             case FEDERAL_SUBJECTS:
                 return federalSubjectsBreadcrumbs;
             case FEDERAL_SUBJECT_CREATE:
                 return federalSubjectNewBreadcrumbs;
-//            case FEDERAL_SUBJECT_FORECAST:
-//                break;
+            case USERS:
+                return usersBreadcrumbs;
+            case USER_CREATE:
+                return usersBreadcrumbs;
+            case PROTECTIVE_MEASURES:
+                return protectiveMeasuresBreadcrumbs;
         }
     
         return null;
@@ -147,6 +161,20 @@ public class BreadcrumbsListFactory {
                     breadcrumbs = new ArrayList<>(federalSubjectsBreadcrumbs);
                     breadcrumbs.add(new Breadcrumb("", "/admin/federal-subjects/" + params[0], "fa-edit"));
                     breadcrumbs.add(new Breadcrumb("Расчет рисков", "/admin/federal-subjects/" + params[0] + "/forecast", "fa-calculator"));
+                    return breadcrumbs;
+                }
+                break;
+            case USER:
+                if(params.length == 1){
+                    breadcrumbs = new ArrayList<>(usersBreadcrumbs);
+                    breadcrumbs.add(new Breadcrumb("", "/admin/users/" + params[0], "fa-edit"));
+                    return breadcrumbs;
+                }
+                break;
+            case PROTECTIVE_MEASURE:
+                if(params.length == 1){
+                    breadcrumbs = new ArrayList<>(protectiveMeasuresBreadcrumbs);
+                    breadcrumbs.add(new Breadcrumb("", "/admin/protective-measures/" + params[0], "fa-edit"));
                     return breadcrumbs;
                 }
                 break;

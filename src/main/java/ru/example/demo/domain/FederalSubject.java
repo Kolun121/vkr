@@ -48,7 +48,7 @@ public class FederalSubject implements Serializable{
     @NotNull(message = "Значение должно быть заполнено")
     private Integer averageHumanLifeCost = 0;
     
-    @DecimalMin(value = "0.0", message = "Значение должно быть больше нуля")
+    @DecimalMin(value = "0.0", message = "Значение должно быть больше или равно нулю")
     @DecimalMax(value = "1.0", message = "Значение не должно быть больше одного")
     @NotNull(message = "Значение должно быть заполнено")
     @Digits(integer=3, fraction=20, message = "Значение не должно содержать более 20 символов после запятой")

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.example.demo.domain.MunicipalityType;
+import ru.example.demo.helper.BreadcrumbsListFactory;
+import ru.example.demo.helper.objects.BreadcrumbsKind;
 import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.MunicipalityTypeService;
@@ -40,7 +42,8 @@ public class MunicipalityTypeController {
     
     
     @GetMapping
-    public String listMunicipalityTypes(){
+    public String listMunicipalityTypes(Model model){
+        model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.MUNICIPALITY_TYPES));
         return ADMIN_MUNICIPALITYTYPE_PATH + "/listMunicipalityTypes";
     }
     
@@ -50,6 +53,15 @@ public class MunicipalityTypeController {
 
         return municipalityTypeService.findAllPagingRequest(pagingRequest);
     } 
+    
+    @PostMapping("/update")
+    @ResponseBody
+    public String updateMunicipalityType(@RequestBody List<MunicipalityType> listMunicipalityTypes){
+
+        municipalityTypeService.saveAll(listMunicipalityTypes);
+
+        return "redirect:/admin/listMunicipalityTypes";
+    }
     
     @PostMapping("/new")
     public @ResponseBody String newMunicipalityType(Model model){

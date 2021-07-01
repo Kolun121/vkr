@@ -6,7 +6,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum Role {
     USER(Set.of(Permission.USER)),
-    ADMIN(Set.of(Permission.USER, Permission.ADMIN));
+    MUNICIPALITY_ROLE(Set.of(Permission.USER, Permission.MUNICIPALITY_ROLE)),
+    SUBJECT_ROLE(Set.of(Permission.USER,Permission.SUBJECT_ROLE)),
+    MCHS_ROLE(Set.of(Permission.USER, Permission.SUBJECT_ROLE, Permission.MUNICIPALITY_ROLE)),
+    ADMIN(Set.of(Permission.USER, Permission.SUBJECT_ROLE, Permission.MUNICIPALITY_ROLE, Permission.ADMIN));
 
     private final Set<Permission> permissions;
 

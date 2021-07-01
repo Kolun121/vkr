@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import ru.example.demo.domain.enumeration.PlaceType;
@@ -33,7 +34,8 @@ public class ProtectiveMeasure  implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String title;
+    @NotEmpty(message = "Значение должно быть заполнено")
+    private String title = "Не указано";
     
     @Enumerated(value = EnumType.STRING)
     private PlaceType designatedFor;

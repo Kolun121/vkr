@@ -56,7 +56,6 @@
             <!--Виды муниципалитетов-->
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
             <script th:src="@{/resources/js/admin/municipality_type/municipality_type_datatables_settings.js}"></script>
-            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>
         </th:block>
         
         <th:block th:case="listFederalSubjectsAdmin">
@@ -98,5 +97,22 @@
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
  <script th:src="@{/webjars/bootstrap4-duallistbox/4.0.2/dist/jquery.bootstrap-duallistbox.min.js}"></script>
             <script th:src="@{/resources/js/admin/federal_district/federal_district_duallistbox.js}"></script>
+        </th:block>
+        
+        <th:block th:case="listUsersAdmin">
+            <!--Пользователи-->
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+            <script th:src="@{/resources/js/admin/user/user_datatables_settings.js}"></script>
+            <script th:src="@{/resources/js/admin/datatables_init.js}"></script>            
+        </th:block>
+        
+        <th:block th:case="updateCrowdedPlaceAdmin">
+            <!--МСЛ-->
+            <script th:src="@{/resources/js/admin/measure_toggle.js}"></script>
+        </th:block>
+        
+        <th:block th:case="updateVesselOperaionPlaceAdmin">
+            <!--ММС-->
+            <script th:src="@{/resources/js/admin/measure_toggle.js}"></script>
         </th:block>
 </th:block>

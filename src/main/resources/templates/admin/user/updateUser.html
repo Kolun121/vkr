@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{admin/fragments/layout :: layout (~{::main},'updateUserAdmin', 'Информация о пользователе')}">
+    
+<main class="container mb-5" >
+    <div class="container">
+        <h3 class="text-center">Обновить информацию о пользователе</h3>
+        <form method="post" th:action="@{''}" class="pt-2 pb-5 mb-5" th:object="${user}">
+            
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Имя', 'username', 'text')}" />
+            <input th:replace="~{admin/fragments/inputField :: inputField ('Пароль', 'password', 'text')}" />
+            
+            <div class="form-group">
+                <label class="control-label" th:for="role">Роль пользователя</label>
+                <div>
+                    <select class="col-6" th:field="*{role}">
+                        <option th:each="item : ${roles}" 
+                                th:value="${item}"  th:selected="${#strings.equals(item, role)}" th:text="${item}"></option>
+                    </select>
+                 </div>
+            </div>
+            
+            <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
+        </form>
+    </div>
+</main>
+
+</html>

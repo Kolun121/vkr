@@ -26,6 +26,7 @@ import ru.example.demo.helper.paging.Page;
 import ru.example.demo.helper.paging.PagingRequest;
 import ru.example.demo.service.MunicipalityForecastService;
 import ru.example.demo.service.MunicipalityService;
+import ru.example.demo.service.MunicipalityTypeService;
 
 
 @Controller("adminMunicipalityController")
@@ -34,16 +35,19 @@ public class MunicipalityController {
     private static final String ADMIN_MUNICIPALITY_PATH = "admin/municipality";
     
     
+    private final MunicipalityTypeService municipalityTypeService;
     private final MunicipalityService municipalityService;
     private final MunicipalityForecastService municipalityForecastService;
     
     public MunicipalityController(
             MunicipalityService municipalityService,
-            MunicipalityForecastService municipalityForecastService
+            MunicipalityForecastService municipalityForecastService,
+            MunicipalityTypeService municipalityTypeService
             ) 
     {
         this.municipalityService = municipalityService;
         this.municipalityForecastService = municipalityForecastService;
+        this.municipalityTypeService = municipalityTypeService;
     }
     
     
@@ -65,9 +69,9 @@ public class MunicipalityController {
     public String getMunicipalityById(@PathVariable Long id, Model model) {
         Municipality municipality = municipalityService.findById(id);
         
-        System.out.println(municipality.getMunicipalityForecast().getPopulationInFirstYear());
         long [] ids = new long[]{id};
         model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.MUNICIPALITY, ids));
+        model.addAttribute("municipalityTypes", municipalityTypeService.findAll());
         
         model.addAttribute("municipality", municipality);
         
@@ -78,6 +82,8 @@ public class MunicipalityController {
     public String municipalityCreatePage(Model model){
         model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.MUNICIPALITY_CREATE));
         model.addAttribute("municipality", new Municipality());
+        model.addAttribute("municipalityTypes", municipalityTypeService.findAll());
+        
         return ADMIN_MUNICIPALITY_PATH + "/createMunicipality";
     }
     
@@ -87,7 +93,8 @@ public class MunicipalityController {
             
             model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsList(BreadcrumbsKind.MUNICIPALITY_CREATE));
             model.addAttribute("municipality", municipality);
-        
+            model.addAttribute("municipalityTypes", municipalityTypeService.findAll());
+            
             return ADMIN_MUNICIPALITY_PATH + "/createMunicipality";
         } else {            
             MunicipalityForecast municipalityForecast = new MunicipalityForecast();
@@ -108,6 +115,7 @@ public class MunicipalityController {
             long [] ids = new long[]{id};
             model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.MUNICIPALITY, ids));
 
+            model.addAttribute("municipalityTypes", municipalityTypeService.findAll());
             model.addAttribute("municipality", municipality);
 
             return ADMIN_MUNICIPALITY_PATH + "/updateMunicipality";

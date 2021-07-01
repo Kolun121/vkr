@@ -29,6 +29,9 @@ public final class MunicipalityTypeComparators {
         map.put(new Key("id", Direction.asc), Comparator.comparing(MunicipalityType::getId));
         map.put(new Key("id", Direction.desc), Comparator.comparing(MunicipalityType::getId)
                                                            .reversed());
+        map.put(new Key("title", Direction.asc), Comparator.comparing(MunicipalityType::getTitle));
+        map.put(new Key("title", Direction.desc), Comparator.comparing(MunicipalityType::getTitle)
+                                                           .reversed());
 
     }
 

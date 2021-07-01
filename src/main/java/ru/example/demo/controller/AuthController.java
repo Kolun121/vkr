@@ -1,6 +1,7 @@
 package ru.example.demo.controller;
 
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,6 +86,13 @@ public class AuthController {
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
+    }
+    
+    @GetMapping("/403")
+    public String get403Page(Model model, HttpServletRequest request) {
+        String test = request.getRequestURI();
+        model.addAttribute("test", test);
+        return "auth/403error";
     }
     
     

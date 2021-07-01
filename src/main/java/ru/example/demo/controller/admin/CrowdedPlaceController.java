@@ -109,12 +109,32 @@ public class CrowdedPlaceController {
     }
     
     @PostMapping("{municipalityId}/water-bodies/{waterBodyId}/crowded-places/{crowdedPlaceId}")
-    public String updateCrowdedPlaceById(@PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long crowdedPlaceId, @Valid CrowdedPlace crowdedPlace, BindingResult result) {
+    public String updateCrowdedPlaceById(Model model, @PathVariable Long municipalityId, @PathVariable Long waterBodyId, @PathVariable Long crowdedPlaceId, @Valid CrowdedPlace crowdedPlace, BindingResult result) {
         if (result.hasErrors()) {
+            long [] ids = new long[]{municipalityId, waterBodyId, crowdedPlaceId};
+            model.addAttribute("breadcrumbs", BreadcrumbsListFactory.getBreadcrumbsListWithParams(BreadcrumbsKind.CROWDED_PLACE, ids));
+             List<ProtectiveMeasure> crowdedPlaceProtectiveMeasures = protectiveMeasureService.findAll()
+                .stream()
+                .filter((ProtectiveMeasure protectiveMeasure) -> {
+                    if(protectiveMeasure.getDesignatedFor()!= null){
+                        if(!protectiveMeasure.getDesignatedFor().equals(PlaceType.VESSEL_OPERATION_PLACE)){
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                .collect((Collectors.toList()));
+                
+        
+            model.addAttribute("typeOfCrowdedPlaceValues", TypeOfCrowdedPlace.values());
+            model.addAttribute("crowdedPlace", crowdedPlace);
+            model.addAttribute("crowdedPlaceProtectiveMeasures", crowdedPlaceProtectiveMeasures);
             return ADMIN_CROWDED_PLACE_PATH + "/updateCrowdedPlace";
         } else {
             crowdedPlace.setId(crowdedPlaceId);
-
+            if(crowdedPlace.getProtectiveMeasure() == null){
+                crowdedPlace.setProtectiveMeasureCost(0);
+            }
             crowdedPlaceService.save(crowdedPlace);
             return "redirect:/admin/municipalities/" + municipalityId + "/water-bodies/" + waterBodyId + "/crowded-places/" + crowdedPlaceId;
         }

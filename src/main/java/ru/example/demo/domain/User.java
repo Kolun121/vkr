@@ -1,6 +1,7 @@
 package ru.example.demo.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import ru.example.demo.domain.enumeration.Role;
 
@@ -12,9 +13,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotEmpty(message = "Значение должно быть заполнено")
     @Column(name = "username")
     private String username;
     
+    @NotEmpty(message = "Значение должно быть заполнено")
     @Column(name = "password")
     private String password;
     

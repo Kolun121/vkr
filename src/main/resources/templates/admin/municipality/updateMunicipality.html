@@ -16,6 +16,19 @@
             
             <input th:replace="~{admin/fragments/inputField :: inputField ('Население муниципалитета (на момент прогноза)', 'currentPopulation', 'number')}" />
             
+            <div class="form-group">
+                <label class="control-label" th:for="*{municipalityType}">Вид муниципалитета</label>
+                <div>
+                    <select class="col-8" th:field="*{municipalityType}">
+                        <option th:value="''" th:text="'Не выбрано'"></option>
+                        <option th:each="item : ${municipalityTypes}" th:value="${item.id}"
+                        th:text="${item.getTitle()}"
+                        th:selected="${#strings.equals(item.id, municipalityType?.id)}"
+                        ></option>
+                    </select>
+                </div>
+            </div>
+            
             <button class="btn btn-primary" type="submit" th:text="'Обновить'"></button>
         </form>
     </div>
