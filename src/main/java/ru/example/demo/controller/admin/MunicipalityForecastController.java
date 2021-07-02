@@ -184,7 +184,7 @@ public class MunicipalityForecastController {
                     double riskOfDeath = Utils.calculateRiskOfDeath(probabilityOfDeath, municipalityProjectedPopulation, averageHumanLifeCostMunicipality);
 
                     //добавляем к общему риску смерти МСЛ
-                    riskOfDeathDeathMunicipalityMSL = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMSL, riskOfDeath);
+                    riskOfDeathDeathMunicipalityMSL = Utils.addUpRiskDoubles(riskOfDeathDeathMunicipalityMSL, riskOfDeath);
                     
                     System.out.printf("Риск смерти - %.10f", riskOfDeath);
                     System.out.println("");
@@ -251,7 +251,7 @@ public class MunicipalityForecastController {
                     double riskOfDeath = Utils.calculateRiskOfDeath(probabilityOfDeath, municipalityProjectedPopulation, averageHumanLifeCostMunicipality);
 
                     //добавляем к общему риску смерти ММС
-                    riskOfDeathDeathMunicipalityMMS = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeath);
+                    riskOfDeathDeathMunicipalityMMS = Utils.addUpRiskDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeath);
 
                     System.out.println("Риск смерти - %.10f" + riskOfDeath);
                     System.out.println("");
@@ -312,7 +312,7 @@ public class MunicipalityForecastController {
             municipalityForecast.setProbabilityOfDeathMunicipality(probabilityOfDeathMunicipality);
             
             //Общий риск смерти для муниципалитета
-            double riskOfDeathMunicipality = Utils.addUpDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeathDeathMunicipalityMSL);
+            double riskOfDeathMunicipality = Utils.addUpRiskDoubles(riskOfDeathDeathMunicipalityMMS, riskOfDeathDeathMunicipalityMSL);
             municipalityForecast.setRiskOfDeathMunicipality(riskOfDeathMunicipality);
            
             //КОНЕЦ РАСЧЕТОВ

@@ -134,7 +134,7 @@ public class FederalSubjectForecastController {
             municipalityForecast = m.getMunicipalityForecast();
             
             double riskOfDeathMunicipality = municipalityForecast.getRiskOfDeathMunicipality();
-            riskOfDeathFederalSubject = Utils.addUpDoubles(riskOfDeathFederalSubject, riskOfDeathMunicipality);
+            riskOfDeathFederalSubject = Utils.addUpRiskDoubles(riskOfDeathFederalSubject, riskOfDeathMunicipality);
             
             for(AppliedProtectiveMeasure measure: municipalityForecast.getAppliedProtectiveMeasure()){
                 double efficentCoef = measure.getEfficencyCoefficent();
@@ -149,7 +149,7 @@ public class FederalSubjectForecastController {
         federalSubjectForecast.setRiskOfDeathFederalSubject(riskOfDeathFederalSubject);
         
         //Прогнозное значение риска гибели людей на водных объектах территории субъекта Российской Федерации с учетом проведения превентивных мероприятий:
-        double riskOfDeathWithTakenMeasuresFederalSubject = Utils.subtractDoubles(riskOfDeathFederalSubject, additionalProtectiveMeasuresCost);
+        double riskOfDeathWithTakenMeasuresFederalSubject = Utils.subtractRiskDoubles(riskOfDeathFederalSubject, additionalProtectiveMeasuresCost);
         federalSubjectForecast.setRiskOfDeathWithTakenMeasuresFederalSubject(riskOfDeathWithTakenMeasuresFederalSubject);
         
         //Прогнозное значение эффективности принятых мероприятий

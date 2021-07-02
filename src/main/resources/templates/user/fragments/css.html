@@ -1,3 +1,22 @@
 <th:block th:fragment="css"><th:block th:switch="${page}">
-
+<th:block th:case="indexUser">
+        <!--Главная-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/index.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/svg_map.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+    </th:block>
+    <th:block th:case="listMunicipalitiesUser">
+        <!--Муниципалитеты-->
+        <link rel="stylesheet" type="text/css" th:href="@{/resources/css/municipalities.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
+    </th:block>
+    <th:block th:case="listFederalSubjectsUser">
+    <!--Субъекты РФ-->
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/federal_subjects.css}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/css/uikit.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/dataTables.uikit.min.css">
+    </th:block>
 </th:block></th:block>
