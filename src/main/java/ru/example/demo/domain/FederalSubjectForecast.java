@@ -54,6 +54,7 @@ public class FederalSubjectForecast implements Serializable{
     @Enumerated(value = EnumType.STRING)
     private RiskCriteria riskCriteria;
     
+    @JsonIgnore
     @OneToOne()
     private FederalSubject federalSubject;
     

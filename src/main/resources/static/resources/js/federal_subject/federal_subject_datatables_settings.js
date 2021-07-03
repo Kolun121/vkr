@@ -2,7 +2,7 @@
 var columnDefs = [{
     searchable: false,
     orderable: false,
-    targets: [0, 3]
+    targets: [0, 2]
 },
 {
 //    "targets": 2,
@@ -20,16 +20,17 @@ var columns = [
          "defaultContent": ''
      },
     {"data": "title", 
-        "width": "30%",
+        "width": "31%",
         "defaultContent": "<i>Не указана</i>"
 
     },
     {"data": "federalSubjectType", 
-        "width": "30%",
+        "width": "35%",
         "defaultContent": "<i>Не указана</i>"
 
     },
-    {"data": "id", "width": "38%"}
+    {"data": "federalSubjectForecast.riskOfDeathFederalSubject", "width": "16%"},
+    {"data": "currentPopulation", "width": "16%"}
 ];
 
 var token = $("input[name='_csrf']").val();
@@ -95,25 +96,18 @@ $('#data_table tbody').on('click', 'td.details-control', function () {
     } );
    
 function format ( d ) {
-//    var passport = d.passport;
-//    if(passport.issuedBy === null){
-//       passport.issuedBy = "Не указано кем выдан паспорт"; 
-//    }
-//    if(passport.issueDate === null){
-//       passport.issueDate = "Дата выдачи не указана"; 
-//    }
-//    if(passport.passportID === null){
-//       passport.passportID = "ID паспорта не указан"; 
-//    }
-//    
-//    var passportRow = '<h3 class="card-header" style="border: 1px solid rgba(0,0,0,.125);" >Паспорт сотрудника</h3>' +
-//            '<div class="card">' +
-//    '<ul class="list-group list-group-flush">' +
-//        '<li class="list-group-item">Паспорт ID: ' + passport.passportID + '</li>' +
-//        '<li class="list-group-item">Кем выдан паспорт: ' + passport.issuedBy + '</li>' +
-//        '<li class="list-group-item">Дата выдачи паспорта: ' + passport.issueDate + '</li>' +
-//    '</ul>' +
-//    '</div>';
+    var forecast = d.federalSubjectForecast;
+    
+    var forecastRow = '<h3 class="card-header" style="border: 1px solid rgba(0,0,0,.125);" >Прогноз рисков</h3>' +
+            '<div class="card">' +
+    '<ul class="list-group list-group-flush">' +
+        '<li class="list-group-item">Риск смерти: ' + forecast.riskCriteria + '</li>' +
+        '<li class="list-group-item">Допустимый риск смерти: ' + forecast.acceptableRiskOfDeathFederalSubject + ' руб.</li>' +
+        '<li class="list-group-item">Стоимость доп. мероприятий: ' + forecast.costOfAdditionalProtectiveMeasures + ' руб.</li>' +
+        '<li class="list-group-item">Риск смерти с доп. мероприятиями: ' + forecast.riskOfDeathWithTakenMeasuresFederalSubject + ' руб.</li>' +
+        '<li class="list-group-item">Эффективность мер: ' + forecast.effectivenessOfTakenMeasures + '</li>' +
+    '</ul>' +
+    '</div>';
 //
 //    var educations = d.educations;
 //    var educationsRow = '<h3 class="card-header" style="border: 1px solid rgba(0,0,0,.125);">Образование сотрудника</h3>';
@@ -318,5 +312,5 @@ function format ( d ) {
 //    }
     
 //    return passportRow + educationsRow + familyMembersRow + jobHistoryRow + vacationRow;
-    return "vacationRow";
+    return forecastRow;
 }

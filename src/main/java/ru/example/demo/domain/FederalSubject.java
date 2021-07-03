@@ -59,8 +59,7 @@ public class FederalSubject implements Serializable{
     
     @Enumerated(value = EnumType.STRING)
     private FederalSubjectType federalSubjectType;
-    
-    @JsonIgnore
+   
     @OneToOne(cascade = CascadeType.ALL)
     private FederalSubjectForecast federalSubjectForecast;
     

@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li th:replace="::menuItem ('/federal-subjects','listFederalSubjectsUser','Субъекты РФ', ${page})"/>
-                    <li th:replace="::menuItem ('/municipalities','listMunicipalitiesUser','Муниципалитеты', ${page})"/>
+                    <!--<li th:replace="::menuItem ('/municipalities','listMunicipalitiesUser','Муниципалитеты', ${page})"/>-->
                 </ul>
             </div>
             <div class="header" sec:authorize="not isAuthenticated()">

@@ -18,7 +18,7 @@ public enum RiskCriteria {
         this.colorValue = colorValue;
     }
 
-    @JsonValue
+//    @JsonValue
     public int getIntValue() {
         return intValue;
     }
@@ -28,8 +28,13 @@ public enum RiskCriteria {
         return stringValue;
     }
     
-    @JsonValue
+//    @JsonValue
     public String getColorValue() {
         return colorValue;
+    }
+    
+    @Override
+    public String toString() {
+        return stringValue;
     }
 }

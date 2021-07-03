@@ -56,6 +56,10 @@ public class FederalSubjectController {
     @ResponseBody
     public Page<FederalSubject> listFederalSubjectsAjax(@RequestBody PagingRequest pagingRequest) {
         Page<FederalSubject> temp = federalSubjectService.findAllPagingRequest(pagingRequest);
+        
+        List<FederalSubject> federalSubjectsWithForecasts = temp.getData().stream().filter(fs -> fs.getFederalSubjectForecast().getPopulationDynamicsCoefficient() != null).collect(Collectors.toList());
+        temp.setData(federalSubjectsWithForecasts);
+        
         return temp;
     }
 }
